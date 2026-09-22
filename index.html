@@ -3,29 +3,41 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PriceAlpha.br — radar de preço</title>
-<meta name="description" content="Radar de preço do @pricealpha.br: o que está abaixo do preço do varejo agora e os links de cada post.">
+<title>PriceAlpha.br — radar de preço gamer</title>
+<meta name="description" content="Radar de preço gamer do @pricealpha.br: comprar agora ou esperar? O Mercado Livre comparado com 40 dias de varejo.">
 <meta name="theme-color" content="#070b10">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23adff2f'/%3E%3Ctext x='7' y='28' font-family='Arial' font-size='19' font-weight='900' fill='%23091007'%3EP%CE%B1%3C/text%3E%3C/svg%3E">
 <style>
-:root { --bg:#070b10; --panel:#101821; --deep:#0b1118; --line:#223040; --ink:#f4f8fb;
-  --muted:#8fa1b2; --lime:#adff2f; --lime-ink:#091007; --teal:#26a69a; color-scheme:dark; }
+@font-face { font-family:"Archivo"; font-weight:800; font-display:swap; src:url(fonts/archivo-latin-800-normal.woff2) format("woff2"); }
+@font-face { font-family:"Archivo"; font-weight:900; font-display:swap; src:url(fonts/archivo-latin-900-normal.woff2) format("woff2"); }
+@font-face { font-family:"IBM Plex Mono"; font-weight:500; font-display:swap; src:url(fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2"); }
+@font-face { font-family:"IBM Plex Mono"; font-weight:700; font-display:swap; src:url(fonts/ibm-plex-mono-latin-700-normal.woff2) format("woff2"); }
+:root { --bg:#070b10; --panel:#101821; --deep:#131c26; --line:#263544; --ink:#f4f8fb;
+  --muted:#91a1b0; --lime:#adff2f; --lime-ink:#091007; --teal:#32d6c5; --amber:#f7c948;
+  --pink:#ff667a; --grey:#6f8193; color-scheme:dark; }
 * { box-sizing:border-box; }
 body { margin:0; background:var(--bg); color:var(--ink);
   font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; }
+.hero { margin:22px 0 10px; }
+.eyebrow { margin:0; font:700 13px/1 "IBM Plex Mono",Consolas,monospace; letter-spacing:2px; color:var(--muted); }
+.hero h1 { margin:10px 0 8px; font:900 clamp(38px,11vw,56px)/1 "Archivo",Arial,sans-serif; letter-spacing:-.5px; }
+.stamp { margin:0; font:500 13px/1.5 "IBM Plex Mono",Consolas,monospace; color:var(--muted); }
+.stamp b { color:var(--ink); font-weight:700; }
+.big, .brand, .post h3, .signal h3 { font-family:"Archivo",Arial,sans-serif; }
+.st.entry { color:var(--lime); } .st.wait { color:var(--amber); } .st.inflated { color:var(--pink); } .st.insufficient { color:var(--muted); }
 .wrap { max-width:680px; margin:0 auto; padding:18px 16px 48px; }
 .top { display:flex; align-items:center; justify-content:space-between; gap:12px; }
 .brand { display:flex; align-items:center; gap:10px; font-weight:800; font-size:20px; }
-.brand b, .lime { color:var(--lime); }
+.brand b { color:var(--muted); }
 .logo { width:36px; height:36px; border-radius:10px; background:var(--lime); color:var(--lime-ink);
   display:grid; place-items:center; font-weight:900; font-size:17px; }
-.motto, .meta, .sub, .facts, h2 { font-family:ui-monospace,Consolas,"Courier New",monospace; }
+.motto, .meta, .sub, .facts, h2, .chip, .eyebrow { font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace; }
 .motto { margin:0; color:var(--muted); font-size:11px; letter-spacing:2px; }
 .lead { margin:14px 0; font-size:16px; color:#dfe7ee; }
 .lead b { color:var(--ink); }
 .finder { position:sticky; top:0; z-index:3; margin:0 -16px; padding:10px 16px; background:var(--bg);
   border-bottom:1px solid transparent; }
-.finder label { display:block; margin-bottom:6px; font-size:13px; font-weight:700; color:var(--lime); }
+.finder label { display:block; margin-bottom:6px; font-size:13px; font-weight:700; color:var(--ink); }
 .finder input { width:100%; padding:13px 14px; border-radius:12px; border:1px solid var(--line);
   background:var(--panel); color:var(--ink); font:inherit; }
 .finder input:focus { outline:2px solid var(--lime); outline-offset:1px; }
@@ -40,7 +52,8 @@ h2 { margin:26px 0 2px; font-size:13px; letter-spacing:2px; text-transform:upper
 .signals { display:grid; grid-auto-flow:column; grid-auto-columns:min(78%,270px); gap:12px;
   overflow-x:auto; padding-bottom:8px; scroll-snap-type:x mandatory; scrollbar-width:thin; }
 .signal { scroll-snap-align:start; display:flex; flex-direction:column; gap:6px; padding:14px;
-  border-radius:16px; background:linear-gradient(160deg,#132012,#0e161f 55%); border:1px solid #2f4a1c; }
+  border-radius:16px; background:var(--panel); border:1px solid var(--line); }
+.sig-id { display:flex; align-items:center; gap:10px; }
 .sig-top { display:flex; align-items:center; justify-content:space-between; gap:8px; }
 .signal h3 { margin:2px 0 0; font-size:15px; line-height:1.25; }
 .big { margin:0; font-size:26px; font-weight:900; color:var(--lime); }
@@ -51,7 +64,9 @@ h2 { margin:26px 0 2px; font-size:13px; letter-spacing:2px; text-transform:upper
 .chip { align-self:flex-start; display:inline-block; padding:3px 8px; border-radius:7px; font-size:12px;
   font-weight:800; letter-spacing:.3px; }
 .chip.entry { background:var(--lime); color:var(--lime-ink); }
-.chip.wait { background:#1a2430; color:#dfe7ee; }
+.chip.wait { background:var(--amber); color:var(--lime-ink); }
+.chip.inflated { background:var(--pink); color:var(--lime-ink); }
+.chip.insufficient { background:transparent; color:var(--muted); border:1px solid var(--line); }
 .truth { margin:0; font-size:12px; color:var(--muted); }
 .truth b { color:#dfe7ee; font-weight:700; }
 .thumb { flex:none; width:56px; height:56px; border-radius:10px; background:#fff; display:grid;
@@ -64,24 +79,24 @@ h2 { margin:26px 0 2px; font-size:13px; letter-spacing:2px; text-transform:upper
 .post > header { display:flex; gap:12px; align-items:center; margin-bottom:10px; }
 .cover { flex:none; width:76px; height:76px; border-radius:10px; object-fit:cover; background:var(--deep); }
 .meta { margin:0; color:var(--muted); font-size:11px; letter-spacing:.5px; }
-.code { color:var(--lime); font-weight:800; }
+.code { color:var(--ink); font-weight:800; }
 .post h3 { margin:3px 0; font-size:17px; line-height:1.25; }
 ul { list-style:none; margin:0; padding:0; display:grid; gap:8px; }
 .row { display:flex; gap:12px; padding:10px; border-radius:12px; background:var(--deep); border:1px solid var(--line); }
 .row.featured { border-color:#3b5a22; }
 .row-body { display:flex; flex-direction:column; align-items:flex-start; gap:4px; min-width:0; flex:1; }
-.flag { padding:1px 7px; border-radius:6px; background:var(--lime); color:var(--lime-ink); font-size:10px;
+.flag { padding:1px 7px; border-radius:6px; background:var(--line); color:var(--ink); font-size:10px;
   font-weight:800; text-transform:uppercase; letter-spacing:.4px; }
 .name, .post h3, .signal h3 { overflow-wrap:anywhere; display:-webkit-box; -webkit-box-orient:vertical;
   -webkit-line-clamp:2; overflow:hidden; }
 .name { font-weight:700; font-size:15px; }
 .specs { font-size:12px; color:var(--muted); }
-.price { color:var(--lime); font-weight:800; }
+.price { color:var(--ink); font-weight:800; }
 .price small { color:var(--muted); font-weight:400; font-size:11px; }
 .cta { display:inline-block; margin-top:2px; padding:8px 12px; border-radius:9px; background:var(--lime);
   color:var(--lime-ink); font-size:14px; font-weight:800; text-decoration:none; }
 .cta:hover, .cta:focus-visible { filter:brightness(1.08); outline:2px solid var(--ink); outline-offset:1px; }
-.repost { margin:0 0 10px; padding:6px 10px; border-radius:9px; background:#132012; color:var(--lime);
+.repost { margin:0 0 10px; padding:6px 10px; border-radius:9px; background:var(--deep); color:var(--ink);
   font-size:13px; font-weight:700; }
 .radar.collapsed .more { display:none; }
 .toggle { width:100%; margin-top:10px; padding:11px; border-radius:12px; border:1px solid var(--line);
@@ -100,758 +115,53 @@ footer p { margin:6px 0; }
     <div class="brand"><span class="logo">Pα</span><span>PriceAlpha<b>.br</b></span></div>
     <p class="motto">DADO, NÃO HYPE</p>
   </header>
-  <p class="lead">Radar de preço de tecnologia do <b>@pricealpha.br</b>. A gente compara o Mercado Livre com o menor preço do varejo e diz se é hora de comprar ou de esperar. Agora acompanhando <b>67 produtos</b>.</p>
+  <section class="hero" aria-labelledby="hero-t">
+    <p class="eyebrow">RADAR DE PREÇO GAMER</p>
+    <h1 id="hero-t">COMPRAR AGORA<br>OU ESPERAR?</h1>
+    <p class="lead">Comparamos o preço do Mercado Livre com 40 dias de varejo.</p>
+    <p class="stamp"><b>67 produtos monitorados</b><br>Atualizado em 22/09 às 19:16</p>
+  </section>
   <div class="finder">
     <label for="q">Veio de um post? Digite o número</label>
-    <input id="q" type="search" inputmode="search" placeholder="ex.: 14 — ou o nome do produto" autocomplete="off">
+    <input id="q" type="search" inputmode="search" placeholder="Digite o nº do post ou produto" autocomplete="off">
   </div>
-  <div class="cats" role="group" aria-label="Filtrar por categoria"><button type="button" data-cat="" aria-pressed="true">Tudo</button><button type="button" data-cat="headsets">Headsets e fones</button><button type="button" data-cat="monitores">Monitores</button><button type="button" data-cat="mouses">Mouses</button><button type="button" data-cat="ssds">SSDs e HDs</button><button type="button" data-cat="teclados">Teclados</button></div>
   <section id="sinais" aria-labelledby="sinais-t">
     <h2 id="sinais-t"><span class="dot"></span>Sinais de entrada agora</h2>
-    <p class="sub">Preço do Mercado Livre abaixo do que o varejo cobrou nos últimos 40 dias.</p>
+    <p class="sub">Preço atual no Mercado Livre abaixo da mediana 40d do varejo.</p>
     <div class="signals">
     <article class="signal" data-cat="monitores" data-search="monitor led 20 brazil pc 20wr">
-      <div class="sig-top"><span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_722855-MLA105308780576_012026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span><svg class="spark" viewBox="0 0 132 44" width="132" height="44" aria-hidden="true"><line x1="5.0" y1="5.0" x2="127.0" y2="5.0" stroke="#6f8193" stroke-dasharray="3 3" stroke-width="1"/><polyline points="5.0,5.0 8.0,5.0 8.0,5.0 11.0,5.0 11.0,5.0 14.0,5.0 14.0,5.0 17.0,5.0 17.0,5.0 20.0,5.0 20.0,5.0 23.0,5.0 23.0,5.0 26.0,5.0 26.0,5.0 29.0,5.0 29.0,5.0 32.0,5.0 32.0,5.0 35.0,5.0 35.0,5.0 38.0,5.0 38.0,5.0 41.0,5.0 41.0,5.0 44.0,5.0 44.0,5.0 47.0,5.0 47.0,5.0 50.0,5.0 50.0,5.0 53.0,5.0 53.0,23.0 56.0,23.0 56.0,23.0 59.0,23.0 59.0,23.0 62.0,23.0 62.0,5.0 65.0,5.0 65.0,5.0 68.0,5.0 68.0,5.0 71.0,5.0 71.0,5.0 74.0,5.0 74.0,5.0 77.0,5.0 77.0,5.0 80.0,5.0 80.0,5.0 83.0,5.0 83.0,5.0 86.0,5.0 86.0,5.0 89.0,5.0 89.0,5.0 92.0,5.0 92.0,5.0 95.0,5.0 95.0,5.0 98.0,5.0 98.0,5.0 101.0,5.0 101.0,5.0 104.0,5.0 104.0,5.0 107.0,5.0 107.0,5.0 110.0,5.0 110.0,5.0 113.0,5.0 113.0,5.0 116.0,5.0 116.0,5.0 119.0,5.0 119.0,5.0 122.0,5.0 122.0,5.0" fill="none" stroke="#c9d6e2" stroke-width="1.6"/><circle cx="122.0" cy="39.0" r="6" fill="#adff2f" opacity=".3"/><circle cx="122.0" cy="39.0" r="3.2" fill="#adff2f"/></svg></div>
-      <span class="chip entry">▲ SINAL DE ENTRADA</span>
-      <h3 title="Monitor LED 20 Brazil PC 20WR">Monitor LED 20 Brazil PC 20WR</h3>
+      <div class="sig-top"><span class="chip entry">↓ ENTRADA</span><svg class="spark" viewBox="0 0 132 44" width="132" height="44" aria-hidden="true"><line x1="5.0" y1="5.0" x2="127.0" y2="5.0" stroke="#6f8193" stroke-dasharray="3 3" stroke-width="1"/><polyline points="5.0,5.0 8.0,5.0 8.0,5.0 11.0,5.0 11.0,5.0 14.0,5.0 14.0,5.0 17.0,5.0 17.0,5.0 20.0,5.0 20.0,5.0 23.0,5.0 23.0,5.0 26.0,5.0 26.0,5.0 29.0,5.0 29.0,5.0 32.0,5.0 32.0,5.0 35.0,5.0 35.0,5.0 38.0,5.0 38.0,5.0 41.0,5.0 41.0,5.0 44.0,5.0 44.0,5.0 47.0,5.0 47.0,5.0 50.0,5.0 50.0,5.0 53.0,5.0 53.0,23.0 56.0,23.0 56.0,23.0 59.0,23.0 59.0,23.0 62.0,23.0 62.0,5.0 65.0,5.0 65.0,5.0 68.0,5.0 68.0,5.0 71.0,5.0 71.0,5.0 74.0,5.0 74.0,5.0 77.0,5.0 77.0,5.0 80.0,5.0 80.0,5.0 83.0,5.0 83.0,5.0 86.0,5.0 86.0,5.0 89.0,5.0 89.0,5.0 92.0,5.0 92.0,5.0 95.0,5.0 95.0,5.0 98.0,5.0 98.0,5.0 101.0,5.0 101.0,5.0 104.0,5.0 104.0,5.0 107.0,5.0 107.0,5.0 110.0,5.0 110.0,5.0 113.0,5.0 113.0,5.0 116.0,5.0 116.0,5.0 119.0,5.0 119.0,5.0 122.0,5.0 122.0,5.0" fill="none" stroke="#c9d6e2" stroke-width="1.6"/><circle cx="122.0" cy="39.0" r="6" fill="#adff2f" opacity=".3"/><circle cx="122.0" cy="39.0" r="3.2" fill="#adff2f"/></svg></div>
+      <div class="sig-id"><span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_722855-MLA105308780576_012026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span><h3 title="Monitor LED 20 Brazil PC 20WR">Monitor LED 20 Brazil PC 20WR</h3></div>
       <p class="big">R$ 232,00</p>
-      <p class="why">abaixo do menor preço do varejo em 40 dias</p>
-      <p class="facts"><span>mín. do varejo 40d: R$ 292,83 em 30/08</span><span>visto em 22/09</span></p>
-      <p class="truth">Etiqueta do ML: −31% (de R$ 334,97) · <b>vs varejo real: −35,8%</b></p>
-      <a class="cta" href="https://meli.la/12c6Tot" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+      <p class="why">no menor preço em 40 dias</p>
+      <p class="facts"><span>Menor preço 40d: R$ 292,83</span><span>visto em 22/09</span></p>
+      <p class="truth">Etiqueta do anúncio: −31% (de R$ 334,97) · <b>vs mediana 40d: −35,8%</b></p>
+      <a class="cta" href="https://meli.la/12c6Tot" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
     </article>
     <article class="signal" data-cat="ssds" data-search="ssd m.2 nvme 1tb pcie 4.0 kingston nv3 leitura">
-      <div class="sig-top"><span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_930129-MLU78451929490_082024-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span><svg class="spark" viewBox="0 0 132 44" width="132" height="44" aria-hidden="true"><line x1="5.0" y1="11.3" x2="127.0" y2="11.3" stroke="#6f8193" stroke-dasharray="3 3" stroke-width="1"/><polyline points="5.0,11.3 7.9,11.3 7.9,11.3 10.8,11.3 10.8,11.3 13.8,11.3 13.8,11.3 16.7,11.3 16.7,11.3 19.6,11.3 19.6,11.3 22.6,11.3 22.6,11.3 25.5,11.3 25.5,11.3 28.4,11.3 28.4,11.3 31.3,11.3 31.3,11.3 34.2,11.3 34.2,11.3 37.2,11.3 37.2,11.3 40.1,11.3 40.1,11.3 43.0,11.3 43.0,17.4 46.0,17.4 46.0,17.4 48.9,17.4 48.9,7.3 51.8,7.3 51.8,7.3 54.7,7.3 54.7,7.3 57.6,7.3 57.6,7.5 60.6,7.5 60.6,7.6 63.5,7.6 63.5,11.1 66.4,11.1 66.4,5.0 69.3,5.0 69.3,5.0 72.3,5.0 72.3,5.0 75.2,5.0 75.2,5.0 78.1,5.0 78.1,5.0 81.0,5.0 81.0,39.0 84.0,39.0 84.0,39.0 86.9,39.0 86.9,15.6 89.8,15.6 89.8,21.0 92.8,21.0 92.8,15.6 95.7,15.6 95.7,21.0 98.6,21.0 98.6,19.9 101.5,19.9 101.5,19.9 104.5,19.9 104.5,19.9 107.4,19.9 107.4,21.0 110.3,21.0 110.3,16.4 113.2,16.4 113.2,16.4 116.2,16.4 116.2,16.4 119.1,16.4 119.1,21.0 122.0,21.0 122.0,15.1" fill="none" stroke="#c9d6e2" stroke-width="1.6"/><circle cx="122.0" cy="18.5" r="6" fill="#adff2f" opacity=".3"/><circle cx="122.0" cy="18.5" r="3.2" fill="#adff2f"/></svg></div>
-      <span class="chip entry">▲ SINAL DE ENTRADA</span>
-      <h3 title="SSD M.2 NVMe 1TB PCIe 4.0 Kingston NV3 Leitura">SSD M.2 NVMe 1TB PCIe 4.0 Kingston NV3 Leitura</h3>
+      <div class="sig-top"><span class="chip entry">↓ ENTRADA</span><svg class="spark" viewBox="0 0 132 44" width="132" height="44" aria-hidden="true"><line x1="5.0" y1="11.3" x2="127.0" y2="11.3" stroke="#6f8193" stroke-dasharray="3 3" stroke-width="1"/><polyline points="5.0,11.3 7.9,11.3 7.9,11.3 10.8,11.3 10.8,11.3 13.8,11.3 13.8,11.3 16.7,11.3 16.7,11.3 19.6,11.3 19.6,11.3 22.6,11.3 22.6,11.3 25.5,11.3 25.5,11.3 28.4,11.3 28.4,11.3 31.3,11.3 31.3,11.3 34.2,11.3 34.2,11.3 37.2,11.3 37.2,11.3 40.1,11.3 40.1,11.3 43.0,11.3 43.0,17.4 46.0,17.4 46.0,17.4 48.9,17.4 48.9,7.3 51.8,7.3 51.8,7.3 54.7,7.3 54.7,7.3 57.6,7.3 57.6,7.5 60.6,7.5 60.6,7.6 63.5,7.6 63.5,11.1 66.4,11.1 66.4,5.0 69.3,5.0 69.3,5.0 72.3,5.0 72.3,5.0 75.2,5.0 75.2,5.0 78.1,5.0 78.1,5.0 81.0,5.0 81.0,39.0 84.0,39.0 84.0,39.0 86.9,39.0 86.9,15.6 89.8,15.6 89.8,21.0 92.8,21.0 92.8,15.6 95.7,15.6 95.7,21.0 98.6,21.0 98.6,19.9 101.5,19.9 101.5,19.9 104.5,19.9 104.5,19.9 107.4,19.9 107.4,21.0 110.3,21.0 110.3,16.4 113.2,16.4 113.2,16.4 116.2,16.4 116.2,16.4 119.1,16.4 119.1,21.0 122.0,21.0 122.0,15.1" fill="none" stroke="#c9d6e2" stroke-width="1.6"/><circle cx="122.0" cy="18.5" r="6" fill="#adff2f" opacity=".3"/><circle cx="122.0" cy="18.5" r="3.2" fill="#adff2f"/></svg></div>
+      <div class="sig-id"><span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_930129-MLU78451929490_082024-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span><h3 title="SSD M.2 NVMe 1TB PCIe 4.0 Kingston NV3 Leitura">SSD M.2 NVMe 1TB PCIe 4.0 Kingston NV3 Leitura</h3></div>
       <p class="big">R$ 1.012,00</p>
-      <p class="why">−6,3% vs mediana do varejo em 40 dias</p>
-      <p class="facts"><span>mín. do varejo 40d: R$ 819,99 em 08/09</span><span>visto em 22/09</span></p>
+      <p class="why">6,3% abaixo da mediana 40d</p>
+      <p class="facts"><span>Menor preço 40d: R$ 819,99</span><span>visto em 22/09</span></p>
       
-      <a class="cta" href="https://meli.la/2tBk3yR" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+      <a class="cta" href="https://meli.la/2tBk3yR" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
     </article>
     <article class="signal" data-cat="monitores" data-search="monitor gamer lg 24ms500-b">
-      <div class="sig-top"><span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_921982-MLA99962503055_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span><svg class="spark" viewBox="0 0 132 44" width="132" height="44" aria-hidden="true"><line x1="5.0" y1="11.6" x2="127.0" y2="11.6" stroke="#6f8193" stroke-dasharray="3 3" stroke-width="1"/><polyline points="5.0,39.0 7.9,39.0 7.9,29.3 10.8,29.3 10.8,11.6 13.8,11.6 13.8,11.6 16.7,11.6 16.7,11.6 19.6,11.6 19.6,29.3 22.6,29.3 22.6,5.0 25.5,5.0 25.5,5.0 28.4,5.0 28.4,5.0 31.3,5.0 31.3,7.5 34.2,7.5 34.2,5.0 37.2,5.0 37.2,9.4 40.1,9.4 40.1,9.4 43.0,9.4 43.0,9.4 46.0,9.4 46.0,9.4 48.9,9.4 48.9,9.4 51.8,9.4 51.8,6.7 54.7,6.7 54.7,7.5 57.6,7.5 57.6,9.4 60.6,9.4 60.6,11.6 63.5,11.6 63.5,11.6 66.4,11.6 66.4,11.6 69.3,11.6 69.3,11.6 72.3,11.6 72.3,11.6 75.2,11.6 75.2,11.6 78.1,11.6 78.1,11.6 81.0,11.6 81.0,11.6 84.0,11.6 84.0,11.6 86.9,11.6 86.9,29.3 89.8,29.3 89.8,29.3 92.8,29.3 92.8,29.3 95.7,29.3 95.7,29.3 98.6,29.3 98.6,29.3 101.5,29.3 101.5,29.3 104.5,29.3 104.5,29.3 107.4,29.3 107.4,39.0 110.3,39.0 110.3,39.0 113.2,39.0 113.2,39.0 116.2,39.0 116.2,39.0 119.1,39.0 119.1,39.0 122.0,39.0 122.0,39.0" fill="none" stroke="#c9d6e2" stroke-width="1.6"/><circle cx="122.0" cy="17.5" r="6" fill="#adff2f" opacity=".3"/><circle cx="122.0" cy="17.5" r="3.2" fill="#adff2f"/></svg></div>
-      <span class="chip entry">▲ SINAL DE ENTRADA</span>
-      <h3 title="Monitor Gamer LG 24MS500-B">Monitor Gamer LG 24MS500-B</h3>
+      <div class="sig-top"><span class="chip entry">↓ ENTRADA</span><svg class="spark" viewBox="0 0 132 44" width="132" height="44" aria-hidden="true"><line x1="5.0" y1="11.6" x2="127.0" y2="11.6" stroke="#6f8193" stroke-dasharray="3 3" stroke-width="1"/><polyline points="5.0,39.0 7.9,39.0 7.9,29.3 10.8,29.3 10.8,11.6 13.8,11.6 13.8,11.6 16.7,11.6 16.7,11.6 19.6,11.6 19.6,29.3 22.6,29.3 22.6,5.0 25.5,5.0 25.5,5.0 28.4,5.0 28.4,5.0 31.3,5.0 31.3,7.5 34.2,7.5 34.2,5.0 37.2,5.0 37.2,9.4 40.1,9.4 40.1,9.4 43.0,9.4 43.0,9.4 46.0,9.4 46.0,9.4 48.9,9.4 48.9,9.4 51.8,9.4 51.8,6.7 54.7,6.7 54.7,7.5 57.6,7.5 57.6,9.4 60.6,9.4 60.6,11.6 63.5,11.6 63.5,11.6 66.4,11.6 66.4,11.6 69.3,11.6 69.3,11.6 72.3,11.6 72.3,11.6 75.2,11.6 75.2,11.6 78.1,11.6 78.1,11.6 81.0,11.6 81.0,11.6 84.0,11.6 84.0,11.6 86.9,11.6 86.9,29.3 89.8,29.3 89.8,29.3 92.8,29.3 92.8,29.3 95.7,29.3 95.7,29.3 98.6,29.3 98.6,29.3 101.5,29.3 101.5,29.3 104.5,29.3 104.5,29.3 107.4,29.3 107.4,39.0 110.3,39.0 110.3,39.0 113.2,39.0 113.2,39.0 116.2,39.0 116.2,39.0 119.1,39.0 119.1,39.0 122.0,39.0 122.0,39.0" fill="none" stroke="#c9d6e2" stroke-width="1.6"/><circle cx="122.0" cy="17.5" r="6" fill="#adff2f" opacity=".3"/><circle cx="122.0" cy="17.5" r="3.2" fill="#adff2f"/></svg></div>
+      <div class="sig-id"><span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_921982-MLA99962503055_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span><h3 title="Monitor Gamer LG 24MS500-B">Monitor Gamer LG 24MS500-B</h3></div>
       <p class="big">R$ 599,00</p>
-      <p class="why">−4,8% vs mediana do varejo em 40 dias</p>
-      <p class="facts"><span>mín. do varejo 40d: R$ 489,90 em 13/08</span><span>visto em 22/09</span></p>
+      <p class="why">4,8% abaixo da mediana 40d</p>
+      <p class="facts"><span>Menor preço 40d: R$ 489,90</span><span>visto em 22/09</span></p>
       
-      <a class="cta" href="https://meli.la/1Z1M5rJ" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-    </article>
-    <article class="signal" data-cat="ssds" data-search="ssd m.2 kingston nv3 1tb nvme 6000/4000 mb/s">
-      <div class="sig-top"><span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_845383-MLA101920263317_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span><svg class="spark" viewBox="0 0 132 44" width="132" height="44" aria-hidden="true"><line x1="5.0" y1="11.3" x2="127.0" y2="11.3" stroke="#6f8193" stroke-dasharray="3 3" stroke-width="1"/><polyline points="5.0,11.3 8.0,11.3 8.0,11.3 11.0,11.3 11.0,11.3 14.0,11.3 14.0,11.3 17.0,11.3 17.0,11.3 20.0,11.3 20.0,11.3 23.0,11.3 23.0,11.3 26.0,11.3 26.0,11.3 29.0,11.3 29.0,11.3 32.0,11.3 32.0,11.3 35.0,11.3 35.0,11.3 38.0,11.3 38.0,11.3 41.0,11.3 41.0,17.4 44.0,17.4 44.0,17.4 47.0,17.4 47.0,7.3 50.0,7.3 50.0,7.3 53.0,7.3 53.0,7.3 56.0,7.3 56.0,7.5 59.0,7.5 59.0,7.6 62.0,7.6 62.0,11.1 65.0,11.1 65.0,5.0 68.0,5.0 68.0,5.0 71.0,5.0 71.0,5.0 74.0,5.0 74.0,5.0 77.0,5.0 77.0,5.0 80.0,5.0 80.0,39.0 83.0,39.0 83.0,39.0 86.0,39.0 86.0,15.6 89.0,15.6 89.0,21.0 92.0,21.0 92.0,15.6 95.0,15.6 95.0,21.0 98.0,21.0 98.0,19.9 101.0,19.9 101.0,19.9 104.0,19.9 104.0,19.9 107.0,19.9 107.0,21.0 110.0,21.0 110.0,16.4 113.0,16.4 113.0,16.4 116.0,16.4 116.0,16.4 119.0,16.4 119.0,21.0 122.0,21.0 122.0,15.1" fill="none" stroke="#c9d6e2" stroke-width="1.6"/><circle cx="122.0" cy="14.6" r="6" fill="#adff2f" opacity=".3"/><circle cx="122.0" cy="14.6" r="3.2" fill="#adff2f"/></svg></div>
-      <span class="chip entry">▲ SINAL DE ENTRADA</span>
-      <h3 title="Ssd M.2 Kingston Nv3 1tb Nvme 6000/4000 Mb/s">Ssd M.2 Kingston Nv3 1tb Nvme 6000/4000 Mb/s</h3>
-      <p class="big">R$ 1.049,00</p>
-      <p class="why">−2,9% vs mediana do varejo em 40 dias</p>
-      <p class="facts"><span>mín. do varejo 40d: R$ 819,99 em 08/09</span><span>visto em 22/09</span></p>
-      
-      <a class="cta" href="https://meli.la/1hJRwVV" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-    </article>
-    <article class="signal" data-cat="ssds" data-search="ssd nvme kingston 1tb nv3 m.2 2280 pcie 4.0 nf-e">
-      <div class="sig-top"><span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_763811-MLA100010597069_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span><svg class="spark" viewBox="0 0 132 44" width="132" height="44" aria-hidden="true"><line x1="5.0" y1="11.3" x2="127.0" y2="11.3" stroke="#6f8193" stroke-dasharray="3 3" stroke-width="1"/><polyline points="5.0,11.3 7.9,11.3 7.9,11.3 10.8,11.3 10.8,11.3 13.8,11.3 13.8,11.3 16.7,11.3 16.7,11.3 19.6,11.3 19.6,11.3 22.6,11.3 22.6,11.3 25.5,11.3 25.5,11.3 28.4,11.3 28.4,11.3 31.3,11.3 31.3,11.3 34.2,11.3 34.2,11.3 37.2,11.3 37.2,11.3 40.1,11.3 40.1,11.3 43.0,11.3 43.0,17.4 46.0,17.4 46.0,17.4 48.9,17.4 48.9,7.3 51.8,7.3 51.8,7.3 54.7,7.3 54.7,7.3 57.6,7.3 57.6,7.5 60.6,7.5 60.6,7.6 63.5,7.6 63.5,11.1 66.4,11.1 66.4,5.0 69.3,5.0 69.3,5.0 72.3,5.0 72.3,5.0 75.2,5.0 75.2,5.0 78.1,5.0 78.1,5.0 81.0,5.0 81.0,39.0 84.0,39.0 84.0,39.0 86.9,39.0 86.9,15.6 89.8,15.6 89.8,21.0 92.8,21.0 92.8,15.6 95.7,15.6 95.7,21.0 98.6,21.0 98.6,19.9 101.5,19.9 101.5,19.9 104.5,19.9 104.5,19.9 107.4,19.9 107.4,21.0 110.3,21.0 110.3,16.4 113.2,16.4 113.2,16.4 116.2,16.4 116.2,16.4 119.1,16.4 119.1,21.0 122.0,21.0 122.0,15.1" fill="none" stroke="#c9d6e2" stroke-width="1.6"/><circle cx="122.0" cy="14.6" r="6" fill="#adff2f" opacity=".3"/><circle cx="122.0" cy="14.6" r="3.2" fill="#adff2f"/></svg></div>
-      <span class="chip entry">▲ SINAL DE ENTRADA</span>
-      <h3 title="Ssd Nvme Kingston 1tb Nv3 M.2 2280 Pcie 4.0 Nf-e">Ssd Nvme Kingston 1tb Nv3 M.2 2280 Pcie 4.0 Nf-e</h3>
-      <p class="big">R$ 1.049,00</p>
-      <p class="why">−2,9% vs mediana do varejo em 40 dias</p>
-      <p class="facts"><span>mín. do varejo 40d: R$ 819,99 em 08/09</span><span>visto em 22/09</span></p>
-      
-      <a class="cta" href="https://meli.la/26cQViv" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-    </article>
-    <article class="signal" data-cat="monitores" data-search="monitor gamer samsung essential">
-      <div class="sig-top"><span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_652104-MLA96195278152_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span><svg class="spark" viewBox="0 0 132 44" width="132" height="44" aria-hidden="true"><polyline points="5.0,5.0 34.2,5.0 34.2,24.8 63.5,24.8 63.5,24.8 92.8,24.8 92.8,39.0 122.0,39.0 122.0,39.0" fill="none" stroke="#c9d6e2" stroke-width="1.6"/><circle cx="122.0" cy="39.0" r="6" fill="#adff2f" opacity=".3"/><circle cx="122.0" cy="39.0" r="3.2" fill="#adff2f"/></svg></div>
-      <span class="chip entry">▲ MENOR PREÇO REGISTRADO</span>
-      <h3 title="Monitor Gamer Samsung Essential">Monitor Gamer Samsung Essential</h3>
-      <p class="big">R$ 523,00</p>
-      <p class="why">no ML em 5 dias de coleta</p>
-      <p class="facts"><span>visto em 22/09</span></p>
-      
-      <a class="cta" href="https://meli.la/1LWtDcE" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+      <a class="cta" href="https://meli.la/1Z1M5rJ" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
     </article>
     </div>
   </section>
-  <section id="radar" aria-labelledby="radar-t">
-    <h2 id="radar-t">No radar</h2>
-    <p class="sub">Tudo o que acompanhamos, dos melhores momentos de compra para os piores.</p>
-    <ul class="radar collapsed">
-        <li class="row radar-row" data-cat="monitores" data-search="monitor led 20 brazil pc 20wr">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_722855-MLA105308780576_012026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Monitor LED 20 Brazil PC 20WR">Monitor LED 20 Brazil PC 20WR</span>
-            
-            <span class="price">R$ 232,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ SINAL DE ENTRADA · −35,8%</span>
-            <a class="cta" href="https://meli.la/12c6Tot" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row" data-cat="ssds" data-search="ssd m.2 nvme 1tb pcie 4.0 kingston nv3 leitura">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_930129-MLU78451929490_082024-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="SSD M.2 NVMe 1TB PCIe 4.0 Kingston NV3 Leitura">SSD M.2 NVMe 1TB PCIe 4.0 Kingston NV3 Leitura</span>
-            <span class="specs">NVMe 4.0</span>
-            <span class="price">R$ 1.012,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ SINAL DE ENTRADA · −6,3%</span>
-            <a class="cta" href="https://meli.la/2tBk3yR" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row" data-cat="monitores" data-search="monitor gamer lg 24ms500-b">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_921982-MLA99962503055_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Monitor Gamer LG 24MS500-B">Monitor Gamer LG 24MS500-B</span>
-            
-            <span class="price">R$ 599,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ SINAL DE ENTRADA · −4,8%</span>
-            <a class="cta" href="https://meli.la/1Z1M5rJ" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row" data-cat="ssds" data-search="ssd m.2 kingston nv3 1tb nvme 6000/4000 mb/s">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_845383-MLA101920263317_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Ssd M.2 Kingston Nv3 1tb Nvme 6000/4000 Mb/s">Ssd M.2 Kingston Nv3 1tb Nvme 6000/4000 Mb/s</span>
-            
-            <span class="price">R$ 1.049,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ SINAL DE ENTRADA · −2,9%</span>
-            <a class="cta" href="https://meli.la/1hJRwVV" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row" data-cat="ssds" data-search="ssd nvme kingston 1tb nv3 m.2 2280 pcie 4.0 nf-e">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_763811-MLA100010597069_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Ssd Nvme Kingston 1tb Nv3 M.2 2280 Pcie 4.0 Nf-e">Ssd Nvme Kingston 1tb Nv3 M.2 2280 Pcie 4.0 Nf-e</span>
-            <span class="specs">NVMe PCIe 4.0 x4</span>
-            <span class="price">R$ 1.049,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ SINAL DE ENTRADA · −2,9%</span>
-            <a class="cta" href="https://meli.la/26cQViv" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row" data-cat="monitores" data-search="monitor gamer samsung essential">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_652104-MLA96195278152_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Monitor Gamer Samsung Essential">Monitor Gamer Samsung Essential</span>
-            <span class="specs">2 HDMI 1.4</span>
-            <span class="price">R$ 523,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ MENOR PREÇO REGISTRADO</span>
-            <a class="cta" href="https://meli.la/1LWtDcE" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row" data-cat="monitores" data-search="monitor lg ultragear™ 24g411a-b">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_685909-MLA101438581463_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Monitor LG UltraGear™ 24G411A-B">Monitor LG UltraGear™ 24G411A-B</span>
-            <span class="specs">1 hdmi 2.0, DisplayPort, Saída para fone de ouvido</span>
-            <span class="price">R$ 649,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ MENOR PREÇO REGISTRADO</span>
-            <a class="cta" href="https://meli.la/1yDvpLH" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row" data-cat="ssds" data-search="ssd kingston nv2 snvs/1 tb para pc e laptop">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_919844-MLU73803114281_012024-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="SSD Kingston Nv2 SNVS/1 TB para PC e laptop">SSD Kingston Nv2 SNVS/1 TB para PC e laptop</span>
-            <span class="specs">NVMe, PCIe 4.0, PCIe Gen 3.0</span>
-            <span class="price">R$ 1.059,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ MENOR PREÇO REGISTRADO</span>
-            <a class="cta" href="https://meli.la/2EcWkR4" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="ssds" data-search="ssd nvme movespeed">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_701075-MLA99853800513_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Ssd Nvme Movespeed">Ssd Nvme Movespeed</span>
-            <span class="specs">NVMe</span>
-            <span class="price">R$ 1.280,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ MENOR PREÇO REGISTRADO</span>
-            <a class="cta" href="https://meli.la/1cJNKFQ" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="ssds" data-search="disco rígido ssd nvme kingspec capacidade ssd 1tb">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_840635-MLU71096891354_082023-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Disco Rígido Ssd Nvme Kingspec Capacidade Ssd 1tb">Disco Rígido Ssd Nvme Kingspec Capacidade Ssd 1tb</span>
-            <span class="specs">PCIe</span>
-            <span class="price">R$ 997,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/23CaHNC" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="headsets" data-search="fone de ouvido headset gamer havit h2002d">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_759854-MLA99487952684_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Fone De Ouvido Headset Gamer Havit H2002d">Fone De Ouvido Headset Gamer Havit H2002d</span>
-            
-            <span class="price">R$ 199,99 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/16U4vss" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="headsets" data-search="fone de ouvido jbl quantum 100m2 gamer over-ear">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_913023-MLA110131689717_042026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Fone de Ouvido JBL Quantum 100M2 Gamer Over-ear">Fone de Ouvido JBL Quantum 100M2 Gamer Over-ear</span>
-            
-            <span class="price">R$ 170,90 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/2UvbBdp" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="headsets" data-search="fone gamer qkz ak6">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_882147-MLA99558182796_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Fone Gamer Qkz Ak6">Fone Gamer Qkz Ak6</span>
-            
-            <span class="price">R$ 28,80 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1EytXbE" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="headsets" data-search="headset gamer apolo">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_939556-MLA99630020264_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Headset Gamer Apolo">Headset Gamer Apolo</span>
-            
-            <span class="price">R$ 49,50 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/2tTNBDp" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="headsets" data-search="headset gamer headset headset inova fon-8679">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_695569-MLA95574884151_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Headset gamer Headset Headset inova fon-8679">Headset gamer Headset Headset inova fon-8679</span>
-            
-            <span class="price">R$ 44,57 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/29DyzfC" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="headsets" data-search="headset gamer hp h400">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_796053-MLA96420663032_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Headset Gamer Hp H400">Headset Gamer Hp H400</span>
-            
-            <span class="price">R$ 149,90 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1C7bvq1" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="headsets" data-search="headset gamer komc g312">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_948997-MLA96429238566_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Headset Gamer Komc G312">Headset Gamer Komc G312</span>
-            
-            <span class="price">R$ 134,60 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/2Syv7K2" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="headsets" data-search="headset jbl gamer quantum 360 wireless">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_806864-MLA109855732182_042026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Headset JBL Gamer Quantum 360 Wireless">Headset JBL Gamer Quantum 360 Wireless</span>
-            
-            <span class="price">R$ 515,15 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/2VL19Rt" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="monitores" data-search="monitor aoc 22&quot; 120hz 1ms gaming hdmi 22b35hm23">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_744601-MLA99934274785_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Monitor AOC 22&quot; 120Hz 1ms Gaming HDMI 22B35HM23">Monitor AOC 22&quot; 120Hz 1ms Gaming HDMI 22B35HM23</span>
-            <span class="specs">1 HDMI 1.4, 1 VGA</span>
-            <span class="price">R$ 465,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/33yJqRs" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="monitores" data-search="monitor gamer aoc 24g2z hero 240hz 0, 5ms ips g-sync">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_624231-MLA99496617216_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Monitor Gamer Aoc 24g2z Hero 240hz 0, 5ms Ips G-sync">Monitor Gamer Aoc 24g2z Hero 240hz 0, 5ms Ips G-sync</span>
-            
-            <span class="price">R$ 1.250,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1GztABt" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="monitores" data-search="monitor gamer aoc agon g50 24&quot; 144hz">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_748152-MLA96322082514_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Monitor Gamer AOC AGON G50 24&quot; 144Hz">Monitor Gamer AOC AGON G50 24&quot; 144Hz</span>
-            <span class="specs">1x HDMI 1.4, 1x Saída de Áudio, 1 x DisplayPort 1.4</span>
-            <span class="price">R$ 649,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1qMwYee" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="monitores" data-search="monitor gamer aoc agon g50 27&quot; 144hz">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_922246-MLA99988034526_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Monitor Gamer AOC AGON G50 27&quot; 144Hz">Monitor Gamer AOC AGON G50 27&quot; 144Hz</span>
-            <span class="specs">HDMI</span>
-            <span class="price">R$ 749,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1so5G8N" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="monitores" data-search="monitor gamer aoc hero 24 144hz ips 1ms amd freesync">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_686662-MLA93759322173_092025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Monitor Gamer Aoc Hero 24 144hz Ips 1ms Amd Freesync">Monitor Gamer Aoc Hero 24 144hz Ips 1ms Amd Freesync</span>
-            
-            <span class="price">R$ 1.050,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1LkbHG6" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="monitores" data-search="monitor gamer aoc série b30 21.5&#x27;&#x27; full hd gaming">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_621055-MLA91966913733_092025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Monitor gamer Aoc Série B30 21.5&#x27;&#x27; Full Hd Gaming">Monitor gamer Aoc Série B30 21.5&#x27;&#x27; Full Hd Gaming</span>
-            <span class="specs">1 HDMI, VGA</span>
-            <span class="price">R$ 444,90 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1RGgvXa" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="monitores" data-search="monitor gamer hero full hd 27&#x27;&#x27; g-sync 144hz ips 1ms">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_955295-MLA99963187515_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Monitor Gamer Hero Full Hd 27&#x27;&#x27; G-sync 144hz Ips 1ms">Monitor Gamer Hero Full Hd 27&#x27;&#x27; G-sync 144hz Ips 1ms</span>
-            
-            <span class="price">R$ 1.500,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/26wDeGa" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="monitores" data-search="monitor gamer redragon saphire 23.8 144hz">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_975974-MLA99478914216_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Monitor Gamer Redragon Saphire 23.8 144hz">Monitor Gamer Redragon Saphire 23.8 144hz</span>
-            
-            <span class="price">R$ 1.356,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/2yQrvUY" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="monitores" data-search="monitor lg led 20&quot; hd+">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_699928-MLA105314087580_012026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Monitor LG LED 20&quot; HD+">Monitor LG LED 20&quot; HD+</span>
-            <span class="specs">HDMI, D-Sub, Saída para fone de ouvido</span>
-            <span class="price">R$ 349,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1cLP9Vt" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="mouses" data-search="mouse gamer attack shark x11">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_900850-MLA111715244974_062026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Mouse Gamer Attack Shark X11">Mouse Gamer Attack Shark X11</span>
-            <span class="specs">Sim</span>
-            <span class="price">R$ 170,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1EkB8ht" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="mouses" data-search="mouse gamer bright gamer 462">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_798576-MLA99592655534_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Mouse gamer Bright Gamer 462">Mouse gamer Bright Gamer 462</span>
-            
-            <span class="price">R$ 59,90 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/32qwjV1" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="mouses" data-search="mouse gamer logitech g203 rgb lightsync">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_823186-MLA114663152147_072026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Mouse Gamer Logitech G203 RGB LIGHTSYNC">Mouse Gamer Logitech G203 RGB LIGHTSYNC</span>
-            <span class="specs">É com fio</span>
-            <span class="price">R$ 102,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1UTvAHE" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="mouses" data-search="mouse gamer logitech mouse logitech g102 rgb gamer">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_675765-MLA94051092727_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Mouse gamer Logitech MOUSE Logitech G102 RGB Gamer">Mouse gamer Logitech MOUSE Logitech G102 RGB Gamer</span>
-            
-            <span class="price">R$ 109,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1jbuFDm" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="mouses" data-search="mouse gamer m711 cobra">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_898286-MLA95664298408_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Mouse Gamer M711 Cobra">Mouse Gamer M711 Cobra</span>
-            
-            <span class="price">R$ 101,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/2eHGg2L" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="mouses" data-search="mouse gamer x11">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_911152-MLA115481262624_082026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Mouse Gamer X11">Mouse Gamer X11</span>
-            <span class="specs">Sim</span>
-            <span class="price">R$ 174,56 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/24nbxRu" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="mouses" data-search="mouse sem fio recarregável bluetooth wireless">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_698387-MLA112152526650_062026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Mouse Sem Fio Recarregável Bluetooth Wireless">Mouse Sem Fio Recarregável Bluetooth Wireless</span>
-            <span class="specs">Bluetooth</span>
-            <span class="price">R$ 21,99 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/33o9AmX" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="mouses" data-search="mouse sem fio recarregável wireless optico led rgb">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_664675-MLA113687155668_072026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Mouse Sem Fio Recarregável Wireless Optico Led Rgb">Mouse Sem Fio Recarregável Wireless Optico Led Rgb</span>
-            <span class="specs">Bluetooth, Wireless 2.4</span>
-            <span class="price">R$ 23,90 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1JQjiKZ" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="mouses" data-search="mouse sem fio recarregável wireless optico led rgb">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_826958-MLA114973266685_072026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Mouse Sem Fio Recarregável Wireless Optico Led Rgb">Mouse Sem Fio Recarregável Wireless Optico Led Rgb</span>
-            <span class="specs">Bluetooth, Wireless 2.4</span>
-            <span class="price">R$ 23,06 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1GYCEqZ" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="mouses" data-search="mouse sem fio recarregável wireless optico led rgb">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_644882-MLA116815483291_082026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Mouse Sem Fio Recarregável Wireless Optico Led Rgb">Mouse Sem Fio Recarregável Wireless Optico Led Rgb</span>
-            <span class="specs">Bluetooth, Wireless 2.4</span>
-            <span class="price">R$ 23,90 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1EJgGG9" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="mouses" data-search="redragon ebony m998 std mouse gamer + tri-mode">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_729109-MLA113954750203_062026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Redragon Ebony M998 STD Mouse Gamer + Tri-Mode">Redragon Ebony M998 STD Mouse Gamer + Tri-Mode</span>
-            
-            <span class="price">R$ 235,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/32tymRq" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="teclados" data-search="redragon lakshmi rainbow preto português brasil">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_776910-MLA93228363871_092025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Redragon Lakshmi Rainbow Preto Português Brasil">Redragon Lakshmi Rainbow Preto Português Brasil</span>
-            
-            <span class="price">R$ 201,90 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1nFF6b4" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="ssds" data-search="ssd 1tb m.2 nvme pcie 4.0 western digital sn3000">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_803738-MLA99373438230_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="SSD 1TB M.2 NVMe PCIe 4.0 Western Digital Sn3000">SSD 1TB M.2 NVMe PCIe 4.0 Western Digital Sn3000</span>
-            
-            <span class="price">R$ 999,89 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/2FCsyZM" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="ssds" data-search="ssd kingston nv3 500gb m2 2280 nvme pcie 4.0 gen 4x4">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_790864-MLA106134764970_022026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="SSD Kingston NV3 500GB M2 2280 NVME PCIe 4.0 Gen 4x4">SSD Kingston NV3 500GB M2 2280 NVME PCIe 4.0 Gen 4x4</span>
-            <span class="specs">Pcie 4, NVMe PCIe 4.0 x4</span>
-            <span class="price">R$ 617,69 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1KJEidX" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="ssds" data-search="ssd kingston sedc600m/960g">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_819939-MLA99374414616_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="SSD Kingston Sedc600m/960g">SSD Kingston Sedc600m/960g</span>
-            <span class="specs">SATA Rev. 3.0 (6Gb/s)</span>
-            <span class="price">R$ 4.900,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/19mPbCb" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="ssds" data-search="ssd m.2 1tb sandisk plus nvme 2280">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_729633-MLA99465062840_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Ssd M.2 1tb Sandisk Plus Nvme 2280">Ssd M.2 1tb Sandisk Plus Nvme 2280</span>
-            <span class="specs">NVMe</span>
-            <span class="price">R$ 975,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/2vGoSiS" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="ssds" data-search="ssd netac nv3000">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_962098-MLA115695831628_092026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="SSD Netac Nv3000">SSD Netac Nv3000</span>
-            <span class="specs">M.2_pci-express_3.0x4</span>
-            <span class="price">R$ 399,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/2cbiefw" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="ssds" data-search="ssd nvme 1tb crucial e100 m.2 pcie 4.0">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_888534-MLA99949615095_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Ssd Nvme 1tb Crucial E100 M.2 Pcie 4.0">Ssd Nvme 1tb Crucial E100 M.2 Pcie 4.0</span>
-            <span class="specs">PCIe 4.0</span>
-            <span class="price">R$ 1.599,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/27hfiJn" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="ssds" data-search="ssd nvme asgard an4">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_638062-MLA99489879142_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="SSD Nvme Asgard AN4">SSD Nvme Asgard AN4</span>
-            
-            <span class="price">R$ 1.449,90 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/2bCjc97" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="ssds" data-search="ssd nvme m.2 256gb pm9b1">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_754321-MLU76732693393_052024-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Ssd nvme M.2 256gb PM9B1">Ssd nvme M.2 256gb PM9B1</span>
-            <span class="specs">NVMe</span>
-            <span class="price">R$ 346,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1SDwc24" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="ssds" data-search="ssd nvme pc notebook ps5 fanxiang s790 1tb gen4">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_897320-MLA99935389005_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Ssd Nvme PC Notebook PS5 Fanxiang S790 1tb Gen4">Ssd Nvme PC Notebook PS5 Fanxiang S790 1tb Gen4</span>
-            <span class="specs">PCIe Gen4x4</span>
-            <span class="price">R$ 1.299,55 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1mvonkU" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="teclados" data-search="teclado gamer gurumania semi mecanico rgb led">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_664235-MLA112022117474_062026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Teclado Gamer Gurumania Semi Mecanico Rgb Led">Teclado Gamer Gurumania Semi Mecanico Rgb Led</span>
-            
-            <span class="price">R$ 46,19 <small>visto em 22/09 · <a href="#p003">no post #003</a></small></span>
-            
-            <a class="cta" href="https://meli.la/14v7CKS" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="teclados" data-search="teclado gamer membrana newdragon nd-2086">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_861732-MLA99590069046_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Teclado Gamer Membrana Newdragon ND-2086">Teclado Gamer Membrana Newdragon ND-2086</span>
-            <span class="specs">USB 2.0</span>
-            <span class="price">R$ 43,90 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/2JkJdsb" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="teclados" data-search="teclado magnético akko monsgeek 8000hz fun60 pro">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_844139-MLA96418198732_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Teclado Magnético Akko Monsgeek 8000hz Fun60 Pro">Teclado Magnético Akko Monsgeek 8000hz Fun60 Pro</span>
-            <span class="specs">USB-C</span>
-            <span class="price">R$ 225,00 <small>visto em 22/09 · <a href="#p003">no post #003</a></small></span>
-            
-            <a class="cta" href="https://meli.la/1z8Vw9i" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="teclados" data-search="teclado mecânico attack shark x68 he interruptor">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_998883-MLA95168370694_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Teclado mecânico Attack Shark X68 He Interruptor">Teclado mecânico Attack Shark X68 He Interruptor</span>
-            <span class="specs">USB-C</span>
-            <span class="price">R$ 299,90 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/19oKwmp" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="teclados" data-search="teclado mecânico aula f75">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_814921-MLA99983118167_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Teclado Mecânico Aula F75">Teclado Mecânico Aula F75</span>
-            <span class="specs">USB-C, Bluetooth</span>
-            <span class="price">R$ 391,05 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/2REhHh1" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="teclados" data-search="teclado mecânico gamer">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_622007-MLA99539825320_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Teclado Mecânico Gamer">Teclado Mecânico Gamer</span>
-            
-            <span class="price">R$ 100,00 <small>visto em 22/09 · <a href="#p003">no post #003</a></small></span>
-            
-            <a class="cta" href="https://meli.la/2u4jFqU" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="teclados" data-search="teclado mecânico gamer 60% switch huano brow red pc">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_600122-MLA99994206687_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Teclado Mecânico Gamer 60% Switch Huano Brow Red Pc">Teclado Mecânico Gamer 60% Switch Huano Brow Red Pc</span>
-            <span class="specs">Computador, Notebook, PS4, PS5, xbox 360, Xbox One</span>
-            <span class="price">R$ 159,90 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1aU1uxR" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="teclados" data-search="teclado mecânico gamer 60% switch huano brow red pc">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_738186-MLA99518020132_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Teclado Mecânico Gamer 60% Switch Huano Brow Red Pc">Teclado Mecânico Gamer 60% Switch Huano Brow Red Pc</span>
-            <span class="specs">Computador, Notebook, PS4, PS5, xbox 360, Xbox One</span>
-            <span class="price">R$ 159,90 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/1krTWxv" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="teclados" data-search="teclado mecânico gamer redragon kumara k552-rgb">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_858328-MLA92468300434_092025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Teclado mecânico Gamer Redragon Kumara K552-RGB">Teclado mecânico Gamer Redragon Kumara K552-RGB</span>
-            
-            <span class="price">R$ 1.500,00 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/2Wdb7r8" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="teclados" data-search="teclado mecânico redragon lakshmi rainbow brown k606">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_987217-MLA99928502679_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Teclado Mecânico Redragon Lakshmi Rainbow Brown K606">Teclado Mecânico Redragon Lakshmi Rainbow Brown K606</span>
-            
-            <span class="price">R$ 134,36 <small>visto em 22/09</small></span>
-            
-            <a class="cta" href="https://meli.la/25PXNaE" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="monitores" data-search="monitor gamer samsung odyssey g5">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_987462-MLA99509630578_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Monitor Gamer Samsung Odyssey G5">Monitor Gamer Samsung Odyssey G5</span>
-            <span class="specs">1 HDMI</span>
-            <span class="price">R$ 1.125,00 <small>visto em 22/09</small></span>
-            <span class="chip wait">● AGUARDAR · +0,9%</span>
-            <a class="cta" href="https://meli.la/2eRZam7" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="monitores" data-search="monitor lg com tela de 24&quot; de 100hz e resolução full">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_921982-MLA99962503055_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Monitor LG com tela de 24&quot; de 100Hz e resolução Full">Monitor LG com tela de 24&quot; de 100Hz e resolução Full</span>
-            
-            <span class="price">R$ 641,00 <small>visto em 22/09</small></span>
-            <span class="chip wait">● AGUARDAR · +1,9%</span>
-            <a class="cta" href="https://meli.la/327AaDy" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="mouses" data-search="mouse gamer g203 lightsync - lilás logitech">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_801862-MLA95840092401_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Mouse Gamer G203 LIGHTSYNC - Lilás Logitech">Mouse Gamer G203 LIGHTSYNC - Lilás Logitech</span>
-            <span class="specs">É com fio</span>
-            <span class="price">R$ 119,92 <small>visto em 22/09</small></span>
-            <span class="chip wait">● AGUARDAR · +9,0%</span>
-            <a class="cta" href="https://meli.la/1eFQfDn" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="headsets" data-search="headset gamer havit h2002d">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_693968-MLA99505956574_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Headset Gamer Havit H2002d">Headset Gamer Havit H2002d</span>
-            
-            <span class="price">R$ 219,19 <small>visto em 22/09</small></span>
-            <span class="chip wait">● AGUARDAR · +44,2%</span>
-            <a class="cta" href="https://meli.la/1BwzK8c" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="headsets" data-search="headset gamer havit gamenote h2002d">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_857089-MLA99931574605_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Headset Gamer Havit Gamenote H2002d">Headset Gamer Havit Gamenote H2002d</span>
-            
-            <span class="price">R$ 221,66 <small>visto em 22/09</small></span>
-            <span class="chip wait">● AGUARDAR · +45,8%</span>
-            <a class="cta" href="https://meli.la/2QkGEWp" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="headsets" data-search="fone de ouvido headphone philco extreme bluetooth">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_867027-MLA99506481804_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Fone de Ouvido Headphone Philco Extreme Bluetooth">Fone de Ouvido Headphone Philco Extreme Bluetooth</span>
-            
-            <span class="price">R$ 249,00 <small>visto em 22/09</small></span>
-            <span class="chip wait">● AGUARDAR · +56,2%</span>
-            <a class="cta" href="https://meli.la/2tUsMrQ" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="headsets" data-search="headset gamer hyperx cloud stinger 2 core pc preto">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_749024-MLA95839576633_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Headset Gamer HyperX Cloud Stinger 2 Core PC Preto">Headset Gamer HyperX Cloud Stinger 2 Core PC Preto</span>
-            
-            <span class="price">R$ 290,00 <small>visto em 22/09</small></span>
-            <span class="chip wait">● AGUARDAR · +96,6%</span>
-            <a class="cta" href="https://meli.la/1XxYxNw" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="headsets" data-search="headset hyperx cloud stinger">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_804019-MLA95654964729_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Headset Hyperx Cloud Stinger">Headset Hyperx Cloud Stinger</span>
-            
-            <span class="price">R$ 320,00 <small>visto em 22/09</small></span>
-            <span class="chip wait">● AGUARDAR · +117,0%</span>
-            <a class="cta" href="https://meli.la/25qPbSh" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-        <li class="row radar-row more" data-cat="headsets" data-search="headset gamer branco e roxo havit h2002d">
-          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_902430-MLA99975527909_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
-          <div class="row-body">
-            <span class="name" title="Headset Gamer Branco E Roxo Havit H2002d">Headset Gamer Branco E Roxo Havit H2002d</span>
-            
-            <span class="price">R$ 389,90 <small>visto em 22/09</small></span>
-            <span class="chip wait">● AGUARDAR · +156,5%</span>
-            <a class="cta" href="https://meli.la/1ZLNoXz" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
-          </div>
-        </li>
-    </ul>
-    <button type="button" class="toggle" id="more">Ver os 67 produtos</button>
-  </section>
+  <div class="cats" role="group" aria-label="Filtrar por categoria"><button type="button" data-cat="" aria-pressed="true">Tudo</button><button type="button" data-cat="headsets">Headsets e fones</button><button type="button" data-cat="monitores">Monitores</button><button type="button" data-cat="mouses">Mouses</button><button type="button" data-cat="ssds">SSDs e HDs</button><button type="button" data-cat="teclados">Teclados</button></div>
   <section id="posts" aria-labelledby="posts-t">
     <h2 id="posts-t">Posts</h2>
-    <p class="sub">Cada post compara 3 produtos. Os links abrem no Mercado Livre.</p>
+    <p class="sub">Cada post traz o produto em destaque e dois parecidos. Os links abrem no Mercado Livre.</p>
     <article class="post" id="p018" data-number="18" data-live="1790263800000" data-cat="ssds" data-search="ssd nvme kingston 1tb nv3 m.2 2280 pcie 4.0 nf-e ssd nvme kingston 1tb nv3 m.2 2280 pcie 4.0 nf-e ssd kingston nv3 500gb m2 2280 nvme pcie 4.0 gen 4x4 ssd m.2 nvme 1tb pcie 4.0 kingston nv3 leitura" hidden>
       <header>
         
@@ -869,9 +179,9 @@ footer p { margin:6px 0; }
             <span class="flag">Destaque do post</span><span class="name" title="Ssd Nvme Kingston 1tb Nv3 M.2 2280 Pcie 4.0 Nf-e">Ssd Nvme Kingston 1tb Nv3 M.2 2280 Pcie 4.0 Nf-e</span>
             <span class="specs">NVMe PCIe 4.0 x4</span>
             <span class="price">R$ 1.049,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ SINAL DE ENTRADA · −2,9%</span>
+            <span class="chip entry">↓ ENTRADA</span>
             
-            <a class="cta" href="https://meli.la/26cQViv" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/26cQViv" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -880,9 +190,9 @@ footer p { margin:6px 0; }
             <span class="name" title="SSD Kingston NV3 500GB M2 2280 NVME PCIe 4.0 Gen 4x4">SSD Kingston NV3 500GB M2 2280 NVME PCIe 4.0 Gen 4x4</span>
             <span class="specs">Pcie 4, NVMe PCIe 4.0 x4</span>
             <span class="price">R$ 617,69 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
             
-            
-            <a class="cta" href="https://meli.la/1KJEidX" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/1KJEidX" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -891,9 +201,9 @@ footer p { margin:6px 0; }
             <span class="name" title="SSD M.2 NVMe 1TB PCIe 4.0 Kingston NV3 Leitura">SSD M.2 NVMe 1TB PCIe 4.0 Kingston NV3 Leitura</span>
             <span class="specs">NVMe 4.0</span>
             <span class="price">R$ 1.012,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ SINAL DE ENTRADA · −6,3%</span>
+            <span class="chip entry">↓ ENTRADA</span>
             
-            <a class="cta" href="https://meli.la/2tBk3yR" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/2tBk3yR" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
       </ul>
@@ -915,9 +225,9 @@ footer p { margin:6px 0; }
             <span class="flag">Destaque do post</span><span class="name" title="Monitor Gamer LG 24MS500-B">Monitor Gamer LG 24MS500-B</span>
             
             <span class="price">R$ 599,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ SINAL DE ENTRADA · −4,8%</span>
+            <span class="chip entry">↓ ENTRADA</span>
             
-            <a class="cta" href="https://meli.la/1Z1M5rJ" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/1Z1M5rJ" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -926,9 +236,9 @@ footer p { margin:6px 0; }
             <span class="name" title="Monitor LG com tela de 24&quot; de 100Hz e resolução Full">Monitor LG com tela de 24&quot; de 100Hz e resolução Full</span>
             
             <span class="price">R$ 641,00 <small>visto em 22/09</small></span>
-            <span class="chip wait">● AGUARDAR · +1,9%</span>
+            <span class="chip wait">● AGUARDAR</span>
             
-            <a class="cta" href="https://meli.la/327AaDy" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/327AaDy" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -937,9 +247,9 @@ footer p { margin:6px 0; }
             <span class="name" title="Monitor Gamer Samsung Odyssey G5">Monitor Gamer Samsung Odyssey G5</span>
             <span class="specs">1 HDMI</span>
             <span class="price">R$ 1.125,00 <small>visto em 22/09</small></span>
-            <span class="chip wait">● AGUARDAR · +0,9%</span>
+            <span class="chip wait">● AGUARDAR</span>
             
-            <a class="cta" href="https://meli.la/2eRZam7" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/2eRZam7" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
       </ul>
@@ -961,9 +271,9 @@ footer p { margin:6px 0; }
             <span class="flag">Destaque do post</span><span class="name" title="SSD M.2 NVMe 1TB PCIe 4.0 Kingston NV3 Leitura">SSD M.2 NVMe 1TB PCIe 4.0 Kingston NV3 Leitura</span>
             <span class="specs">NVMe 4.0</span>
             <span class="price">R$ 1.012,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ SINAL DE ENTRADA · −6,3%</span>
+            <span class="chip entry">↓ ENTRADA</span>
             
-            <a class="cta" href="https://meli.la/2tBk3yR" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/2tBk3yR" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -972,9 +282,9 @@ footer p { margin:6px 0; }
             <span class="name" title="SSD Kingston NV3 500GB M2 2280 NVME PCIe 4.0 Gen 4x4">SSD Kingston NV3 500GB M2 2280 NVME PCIe 4.0 Gen 4x4</span>
             <span class="specs">Pcie 4, NVMe PCIe 4.0 x4</span>
             <span class="price">R$ 617,69 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
             
-            
-            <a class="cta" href="https://meli.la/1KJEidX" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/1KJEidX" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -983,9 +293,9 @@ footer p { margin:6px 0; }
             <span class="name" title="Ssd Nvme Kingston 1tb Nv3 M.2 2280 Pcie 4.0 Nf-e">Ssd Nvme Kingston 1tb Nv3 M.2 2280 Pcie 4.0 Nf-e</span>
             <span class="specs">NVMe PCIe 4.0 x4</span>
             <span class="price">R$ 1.049,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ SINAL DE ENTRADA · −2,9%</span>
+            <span class="chip entry">↓ ENTRADA</span>
             
-            <a class="cta" href="https://meli.la/26cQViv" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/26cQViv" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
       </ul>
@@ -1007,9 +317,9 @@ footer p { margin:6px 0; }
             <span class="flag">Destaque do post</span><span class="name" title="Monitor LG LED 20&quot; HD+">Monitor LG LED 20&quot; HD+</span>
             <span class="specs">HDMI, D-Sub, Saída para fone de ouvido</span>
             <span class="price">R$ 349,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
             
-            
-            <a class="cta" href="https://meli.la/1cLP9Vt" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/1cLP9Vt" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -1018,9 +328,9 @@ footer p { margin:6px 0; }
             <span class="name" title="Monitor Gamer LG 24MS500-B">Monitor Gamer LG 24MS500-B</span>
             
             <span class="price">R$ 599,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ SINAL DE ENTRADA · −4,8%</span>
+            <span class="chip entry">↓ ENTRADA</span>
             
-            <a class="cta" href="https://meli.la/1Z1M5rJ" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/1Z1M5rJ" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -1029,9 +339,9 @@ footer p { margin:6px 0; }
             <span class="name" title="Monitor LG com tela de 24&quot; de 100Hz e resolução Full">Monitor LG com tela de 24&quot; de 100Hz e resolução Full</span>
             
             <span class="price">R$ 641,00 <small>visto em 22/09</small></span>
-            <span class="chip wait">● AGUARDAR · +1,9%</span>
+            <span class="chip wait">● AGUARDAR</span>
             
-            <a class="cta" href="https://meli.la/327AaDy" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/327AaDy" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
       </ul>
@@ -1053,9 +363,9 @@ footer p { margin:6px 0; }
             <span class="flag">Destaque do post</span><span class="name" title="Ssd M.2 Kingston Nv3 1tb Nvme 6000/4000 Mb/s">Ssd M.2 Kingston Nv3 1tb Nvme 6000/4000 Mb/s</span>
             
             <span class="price">R$ 1.049,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ SINAL DE ENTRADA · −2,9%</span>
+            <span class="chip entry">↓ ENTRADA</span>
             
-            <a class="cta" href="https://meli.la/1hJRwVV" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/1hJRwVV" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -1064,9 +374,9 @@ footer p { margin:6px 0; }
             <span class="name" title="SSD M.2 NVMe 1TB PCIe 4.0 Kingston NV3 Leitura">SSD M.2 NVMe 1TB PCIe 4.0 Kingston NV3 Leitura</span>
             <span class="specs">NVMe 4.0</span>
             <span class="price">R$ 1.012,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ SINAL DE ENTRADA · −6,3%</span>
+            <span class="chip entry">↓ ENTRADA</span>
             
-            <a class="cta" href="https://meli.la/2tBk3yR" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/2tBk3yR" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -1075,9 +385,9 @@ footer p { margin:6px 0; }
             <span class="name" title="SSD Kingston NV3 500GB M2 2280 NVME PCIe 4.0 Gen 4x4">SSD Kingston NV3 500GB M2 2280 NVME PCIe 4.0 Gen 4x4</span>
             <span class="specs">Pcie 4, NVMe PCIe 4.0 x4</span>
             <span class="price">R$ 617,69 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
             
-            
-            <a class="cta" href="https://meli.la/1KJEidX" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/1KJEidX" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
       </ul>
@@ -1099,9 +409,9 @@ footer p { margin:6px 0; }
             <span class="flag">Destaque do post</span><span class="name" title="Monitor LED 20 Brazil PC 20WR">Monitor LED 20 Brazil PC 20WR</span>
             
             <span class="price">R$ 232,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ SINAL DE ENTRADA · −35,8%</span>
-            <p class="truth">Etiqueta do ML: −31% (de R$ 334,97) · <b>vs varejo real: −35,8%</b></p>
-            <a class="cta" href="https://meli.la/12c6Tot" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <span class="chip entry">↓ ENTRADA</span>
+            <p class="truth">Etiqueta do anúncio: −31% (de R$ 334,97) · <b>vs mediana 40d: −35,8%</b></p>
+            <a class="cta" href="https://meli.la/12c6Tot" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -1110,9 +420,9 @@ footer p { margin:6px 0; }
             <span class="name" title="Monitor Gamer LG 24MS500-B">Monitor Gamer LG 24MS500-B</span>
             
             <span class="price">R$ 599,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ SINAL DE ENTRADA · −4,8%</span>
+            <span class="chip entry">↓ ENTRADA</span>
             
-            <a class="cta" href="https://meli.la/1Z1M5rJ" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/1Z1M5rJ" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -1121,9 +431,9 @@ footer p { margin:6px 0; }
             <span class="name" title="Monitor LG com tela de 24&quot; de 100Hz e resolução Full">Monitor LG com tela de 24&quot; de 100Hz e resolução Full</span>
             
             <span class="price">R$ 641,00 <small>visto em 22/09</small></span>
-            <span class="chip wait">● AGUARDAR · +1,9%</span>
+            <span class="chip wait">● AGUARDAR</span>
             
-            <a class="cta" href="https://meli.la/327AaDy" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/327AaDy" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
       </ul>
@@ -1145,9 +455,9 @@ footer p { margin:6px 0; }
             <span class="flag">Destaque do post</span><span class="name" title="Mouse Sem Fio Recarregável Wireless Optico Led Rgb">Mouse Sem Fio Recarregável Wireless Optico Led Rgb</span>
             <span class="specs">Bluetooth, Wireless 2.4</span>
             <span class="price">R$ 23,90 <small>visto em 22/09</small></span>
-            
-            <p class="truth">Etiqueta do ML: −19% (de R$ 29,67)</p>
-            <a class="cta" href="https://meli.la/1EJgGG9" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <p class="truth">Etiqueta do anúncio: −19% (de R$ 29,67)</p>
+            <a class="cta" href="https://meli.la/1EJgGG9" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -1156,9 +466,9 @@ footer p { margin:6px 0; }
             <span class="name" title="Mouse Gamer Attack Shark X11">Mouse Gamer Attack Shark X11</span>
             <span class="specs">Sim</span>
             <span class="price">R$ 170,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
             
-            
-            <a class="cta" href="https://meli.la/1EkB8ht" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/1EkB8ht" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -1167,9 +477,9 @@ footer p { margin:6px 0; }
             <span class="name" title="Mouse Gamer X11">Mouse Gamer X11</span>
             <span class="specs">Sim</span>
             <span class="price">R$ 174,56 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
             
-            
-            <a class="cta" href="https://meli.la/24nbxRu" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/24nbxRu" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
       </ul>
@@ -1191,9 +501,9 @@ footer p { margin:6px 0; }
             <span class="flag">Destaque do post</span><span class="name" title="Fone de Ouvido JBL Quantum 100M2 Gamer Over-ear">Fone de Ouvido JBL Quantum 100M2 Gamer Over-ear</span>
             
             <span class="price">R$ 170,90 <small>visto em 22/09</small></span>
-            
-            <p class="truth">Etiqueta do ML: −25% (de R$ 229,00)</p>
-            <a class="cta" href="https://meli.la/2UvbBdp" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <p class="truth">Etiqueta do anúncio: −25% (de R$ 229,00)</p>
+            <a class="cta" href="https://meli.la/2UvbBdp" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -1202,9 +512,9 @@ footer p { margin:6px 0; }
             <span class="name" title="Fone De Ouvido Headset Gamer Havit H2002d">Fone De Ouvido Headset Gamer Havit H2002d</span>
             
             <span class="price">R$ 199,99 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
             
-            
-            <a class="cta" href="https://meli.la/1ikUwrU" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/1ikUwrU" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -1213,9 +523,9 @@ footer p { margin:6px 0; }
             <span class="name" title="Headset Gamer Havit H2002d">Headset Gamer Havit H2002d</span>
             
             <span class="price">R$ 219,19 <small>visto em 22/09</small></span>
-            <span class="chip wait">● AGUARDAR · +44,2%</span>
+            <span class="chip inflated">! PREÇO INFLADO</span>
             
-            <a class="cta" href="https://meli.la/1BwzK8c" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/1BwzK8c" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
       </ul>
@@ -1237,9 +547,9 @@ footer p { margin:6px 0; }
             <span class="flag">Destaque do post</span><span class="name" title="SSD Kingston NV3 500GB M2 2280 NVME PCIe 4.0 Gen 4x4">SSD Kingston NV3 500GB M2 2280 NVME PCIe 4.0 Gen 4x4</span>
             <span class="specs">Pcie 4, NVMe PCIe 4.0 x4</span>
             <span class="price">R$ 617,69 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
             
-            
-            <a class="cta" href="https://meli.la/1KJEidX" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/1KJEidX" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -1248,9 +558,9 @@ footer p { margin:6px 0; }
             <span class="name" title="SSD M.2 NVMe 1TB PCIe 4.0 Kingston NV3 Leitura">SSD M.2 NVMe 1TB PCIe 4.0 Kingston NV3 Leitura</span>
             <span class="specs">NVMe 4.0</span>
             <span class="price">R$ 1.012,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ SINAL DE ENTRADA · −6,3%</span>
+            <span class="chip entry">↓ ENTRADA</span>
             
-            <a class="cta" href="https://meli.la/2tBk3yR" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/2tBk3yR" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -1259,9 +569,9 @@ footer p { margin:6px 0; }
             <span class="name" title="Ssd Nvme Kingston 1tb Nv3 M.2 2280 Pcie 4.0 Nf-e">Ssd Nvme Kingston 1tb Nv3 M.2 2280 Pcie 4.0 Nf-e</span>
             <span class="specs">NVMe PCIe 4.0 x4</span>
             <span class="price">R$ 1.049,00 <small>visto em 22/09</small></span>
-            <span class="chip entry">▲ SINAL DE ENTRADA · −2,9%</span>
+            <span class="chip entry">↓ ENTRADA</span>
             
-            <a class="cta" href="https://meli.la/26cQViv" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/26cQViv" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
       </ul>
@@ -1283,9 +593,9 @@ footer p { margin:6px 0; }
             <span class="flag">Destaque do post</span><span class="name" title="Teclado Mecânico Gamer">Teclado Mecânico Gamer</span>
             
             <span class="price">R$ 100,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
             
-            
-            <a class="cta" href="https://meli.la/2u4jFqU" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/2u4jFqU" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -1294,9 +604,9 @@ footer p { margin:6px 0; }
             <span class="name" title="Teclado Gamer Gurumania Semi Mecanico Rgb Led">Teclado Gamer Gurumania Semi Mecanico Rgb Led</span>
             
             <span class="price">R$ 46,19 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
             
-            
-            <a class="cta" href="https://meli.la/14v7CKS" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/14v7CKS" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
         <li class="row">
@@ -1305,20 +615,700 @@ footer p { margin:6px 0; }
             <span class="name" title="Teclado Magnético Akko Monsgeek 8000hz Fun60 Pro">Teclado Magnético Akko Monsgeek 8000hz Fun60 Pro</span>
             <span class="specs">USB-C</span>
             <span class="price">R$ 225,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
             
-            
-            <a class="cta" href="https://meli.la/1z8Vw9i" target="_blank" rel="sponsored nofollow noopener">Ver no Mercado Livre<span aria-hidden="true"> ›</span></a>
+            <a class="cta" href="https://meli.la/1z8Vw9i" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
           </div>
         </li>
       </ul>
     </article>
     <p class="empty" id="nothing" hidden>Nada encontrado. Confira o número no canto da capa do post.</p>
   </section>
+  <section id="radar" aria-labelledby="radar-t">
+    <h2 id="radar-t">No radar</h2>
+    <p class="sub">Tudo o que acompanhamos, dos melhores momentos de compra para os piores.</p>
+    <ul class="radar collapsed">
+        <li class="row radar-row" data-cat="monitores" data-search="monitor led 20 brazil pc 20wr">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_722855-MLA105308780576_012026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Monitor LED 20 Brazil PC 20WR">Monitor LED 20 Brazil PC 20WR</span>
+            
+            <span class="price">R$ 232,00 <small>visto em 22/09</small></span>
+            <span class="chip entry">↓ ENTRADA</span>
+            <a class="cta" href="https://meli.la/12c6Tot" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row" data-cat="ssds" data-search="ssd m.2 nvme 1tb pcie 4.0 kingston nv3 leitura">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_930129-MLU78451929490_082024-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="SSD M.2 NVMe 1TB PCIe 4.0 Kingston NV3 Leitura">SSD M.2 NVMe 1TB PCIe 4.0 Kingston NV3 Leitura</span>
+            <span class="specs">NVMe 4.0</span>
+            <span class="price">R$ 1.012,00 <small>visto em 22/09</small></span>
+            <span class="chip entry">↓ ENTRADA</span>
+            <a class="cta" href="https://meli.la/2tBk3yR" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row" data-cat="monitores" data-search="monitor gamer lg 24ms500-b">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_921982-MLA99962503055_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Monitor Gamer LG 24MS500-B">Monitor Gamer LG 24MS500-B</span>
+            
+            <span class="price">R$ 599,00 <small>visto em 22/09</small></span>
+            <span class="chip entry">↓ ENTRADA</span>
+            <a class="cta" href="https://meli.la/1Z1M5rJ" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row" data-cat="ssds" data-search="ssd m.2 kingston nv3 1tb nvme 6000/4000 mb/s">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_845383-MLA101920263317_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Ssd M.2 Kingston Nv3 1tb Nvme 6000/4000 Mb/s">Ssd M.2 Kingston Nv3 1tb Nvme 6000/4000 Mb/s</span>
+            
+            <span class="price">R$ 1.049,00 <small>visto em 22/09</small></span>
+            <span class="chip entry">↓ ENTRADA</span>
+            <a class="cta" href="https://meli.la/1hJRwVV" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row" data-cat="ssds" data-search="ssd nvme kingston 1tb nv3 m.2 2280 pcie 4.0 nf-e">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_763811-MLA100010597069_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Ssd Nvme Kingston 1tb Nv3 M.2 2280 Pcie 4.0 Nf-e">Ssd Nvme Kingston 1tb Nv3 M.2 2280 Pcie 4.0 Nf-e</span>
+            <span class="specs">NVMe PCIe 4.0 x4</span>
+            <span class="price">R$ 1.049,00 <small>visto em 22/09</small></span>
+            <span class="chip entry">↓ ENTRADA</span>
+            <a class="cta" href="https://meli.la/26cQViv" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row" data-cat="ssds" data-search="disco rígido ssd nvme kingspec capacidade ssd 1tb">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_840635-MLU71096891354_082023-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Disco Rígido Ssd Nvme Kingspec Capacidade Ssd 1tb">Disco Rígido Ssd Nvme Kingspec Capacidade Ssd 1tb</span>
+            <span class="specs">PCIe</span>
+            <span class="price">R$ 997,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/23CaHNC" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row" data-cat="headsets" data-search="fone de ouvido headset gamer havit h2002d">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_759854-MLA99487952684_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Fone De Ouvido Headset Gamer Havit H2002d">Fone De Ouvido Headset Gamer Havit H2002d</span>
+            
+            <span class="price">R$ 199,99 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/16U4vss" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row" data-cat="headsets" data-search="fone de ouvido jbl quantum 100m2 gamer over-ear">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_913023-MLA110131689717_042026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Fone de Ouvido JBL Quantum 100M2 Gamer Over-ear">Fone de Ouvido JBL Quantum 100M2 Gamer Over-ear</span>
+            
+            <span class="price">R$ 170,90 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/2UvbBdp" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="headsets" data-search="fone gamer qkz ak6">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_882147-MLA99558182796_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Fone Gamer Qkz Ak6">Fone Gamer Qkz Ak6</span>
+            
+            <span class="price">R$ 28,80 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1EytXbE" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="headsets" data-search="headset gamer apolo">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_939556-MLA99630020264_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Headset Gamer Apolo">Headset Gamer Apolo</span>
+            
+            <span class="price">R$ 49,50 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/2tTNBDp" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="headsets" data-search="headset gamer headset headset inova fon-8679">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_695569-MLA95574884151_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Headset gamer Headset Headset inova fon-8679">Headset gamer Headset Headset inova fon-8679</span>
+            
+            <span class="price">R$ 44,57 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/29DyzfC" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="headsets" data-search="headset gamer hp h400">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_796053-MLA96420663032_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Headset Gamer Hp H400">Headset Gamer Hp H400</span>
+            
+            <span class="price">R$ 149,90 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1C7bvq1" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="headsets" data-search="headset gamer komc g312">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_948997-MLA96429238566_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Headset Gamer Komc G312">Headset Gamer Komc G312</span>
+            
+            <span class="price">R$ 134,60 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/2Syv7K2" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="headsets" data-search="headset jbl gamer quantum 360 wireless">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_806864-MLA109855732182_042026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Headset JBL Gamer Quantum 360 Wireless">Headset JBL Gamer Quantum 360 Wireless</span>
+            
+            <span class="price">R$ 515,15 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/2VL19Rt" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="monitores" data-search="monitor aoc 22&quot; 120hz 1ms gaming hdmi 22b35hm23">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_744601-MLA99934274785_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Monitor AOC 22&quot; 120Hz 1ms Gaming HDMI 22B35HM23">Monitor AOC 22&quot; 120Hz 1ms Gaming HDMI 22B35HM23</span>
+            <span class="specs">1 HDMI 1.4, 1 VGA</span>
+            <span class="price">R$ 465,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/33yJqRs" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="monitores" data-search="monitor gamer aoc 24g2z hero 240hz 0, 5ms ips g-sync">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_624231-MLA99496617216_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Monitor Gamer Aoc 24g2z Hero 240hz 0, 5ms Ips G-sync">Monitor Gamer Aoc 24g2z Hero 240hz 0, 5ms Ips G-sync</span>
+            
+            <span class="price">R$ 1.250,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1GztABt" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="monitores" data-search="monitor gamer aoc agon g50 24&quot; 144hz">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_748152-MLA96322082514_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Monitor Gamer AOC AGON G50 24&quot; 144Hz">Monitor Gamer AOC AGON G50 24&quot; 144Hz</span>
+            <span class="specs">1x HDMI 1.4, 1x Saída de Áudio, 1 x DisplayPort 1.4</span>
+            <span class="price">R$ 649,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1qMwYee" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="monitores" data-search="monitor gamer aoc agon g50 27&quot; 144hz">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_922246-MLA99988034526_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Monitor Gamer AOC AGON G50 27&quot; 144Hz">Monitor Gamer AOC AGON G50 27&quot; 144Hz</span>
+            <span class="specs">HDMI</span>
+            <span class="price">R$ 749,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1so5G8N" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="monitores" data-search="monitor gamer aoc hero 24 144hz ips 1ms amd freesync">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_686662-MLA93759322173_092025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Monitor Gamer Aoc Hero 24 144hz Ips 1ms Amd Freesync">Monitor Gamer Aoc Hero 24 144hz Ips 1ms Amd Freesync</span>
+            
+            <span class="price">R$ 1.050,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1LkbHG6" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="monitores" data-search="monitor gamer aoc série b30 21.5&#x27;&#x27; full hd gaming">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_621055-MLA91966913733_092025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Monitor gamer Aoc Série B30 21.5&#x27;&#x27; Full Hd Gaming">Monitor gamer Aoc Série B30 21.5&#x27;&#x27; Full Hd Gaming</span>
+            <span class="specs">1 HDMI, VGA</span>
+            <span class="price">R$ 444,90 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1RGgvXa" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="monitores" data-search="monitor gamer hero full hd 27&#x27;&#x27; g-sync 144hz ips 1ms">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_955295-MLA99963187515_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Monitor Gamer Hero Full Hd 27&#x27;&#x27; G-sync 144hz Ips 1ms">Monitor Gamer Hero Full Hd 27&#x27;&#x27; G-sync 144hz Ips 1ms</span>
+            
+            <span class="price">R$ 1.500,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/26wDeGa" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="monitores" data-search="monitor gamer redragon saphire 23.8 144hz">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_975974-MLA99478914216_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Monitor Gamer Redragon Saphire 23.8 144hz">Monitor Gamer Redragon Saphire 23.8 144hz</span>
+            
+            <span class="price">R$ 1.356,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/2yQrvUY" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="monitores" data-search="monitor gamer samsung essential">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_652104-MLA96195278152_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Monitor Gamer Samsung Essential">Monitor Gamer Samsung Essential</span>
+            <span class="specs">2 HDMI 1.4</span>
+            <span class="price">R$ 523,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ MENOR PREÇO REGISTRADO</span>
+            <a class="cta" href="https://meli.la/1LWtDcE" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="monitores" data-search="monitor lg led 20&quot; hd+">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_699928-MLA105314087580_012026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Monitor LG LED 20&quot; HD+">Monitor LG LED 20&quot; HD+</span>
+            <span class="specs">HDMI, D-Sub, Saída para fone de ouvido</span>
+            <span class="price">R$ 349,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1cLP9Vt" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="monitores" data-search="monitor lg ultragear™ 24g411a-b">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_685909-MLA101438581463_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Monitor LG UltraGear™ 24G411A-B">Monitor LG UltraGear™ 24G411A-B</span>
+            <span class="specs">1 hdmi 2.0, DisplayPort, Saída para fone de ouvido</span>
+            <span class="price">R$ 649,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ MENOR PREÇO REGISTRADO</span>
+            <a class="cta" href="https://meli.la/1yDvpLH" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="mouses" data-search="mouse gamer attack shark x11">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_900850-MLA111715244974_062026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Mouse Gamer Attack Shark X11">Mouse Gamer Attack Shark X11</span>
+            <span class="specs">Sim</span>
+            <span class="price">R$ 170,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1EkB8ht" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="mouses" data-search="mouse gamer bright gamer 462">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_798576-MLA99592655534_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Mouse gamer Bright Gamer 462">Mouse gamer Bright Gamer 462</span>
+            
+            <span class="price">R$ 59,90 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/32qwjV1" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="mouses" data-search="mouse gamer logitech g203 rgb lightsync">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_823186-MLA114663152147_072026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Mouse Gamer Logitech G203 RGB LIGHTSYNC">Mouse Gamer Logitech G203 RGB LIGHTSYNC</span>
+            <span class="specs">É com fio</span>
+            <span class="price">R$ 102,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1UTvAHE" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="mouses" data-search="mouse gamer logitech mouse logitech g102 rgb gamer">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_675765-MLA94051092727_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Mouse gamer Logitech MOUSE Logitech G102 RGB Gamer">Mouse gamer Logitech MOUSE Logitech G102 RGB Gamer</span>
+            
+            <span class="price">R$ 109,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1jbuFDm" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="mouses" data-search="mouse gamer m711 cobra">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_898286-MLA95664298408_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Mouse Gamer M711 Cobra">Mouse Gamer M711 Cobra</span>
+            
+            <span class="price">R$ 101,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/2eHGg2L" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="mouses" data-search="mouse gamer x11">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_911152-MLA115481262624_082026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Mouse Gamer X11">Mouse Gamer X11</span>
+            <span class="specs">Sim</span>
+            <span class="price">R$ 174,56 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/24nbxRu" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="mouses" data-search="mouse sem fio recarregável bluetooth wireless">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_698387-MLA112152526650_062026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Mouse Sem Fio Recarregável Bluetooth Wireless">Mouse Sem Fio Recarregável Bluetooth Wireless</span>
+            <span class="specs">Bluetooth</span>
+            <span class="price">R$ 21,99 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/33o9AmX" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="mouses" data-search="mouse sem fio recarregável wireless optico led rgb">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_664675-MLA113687155668_072026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Mouse Sem Fio Recarregável Wireless Optico Led Rgb">Mouse Sem Fio Recarregável Wireless Optico Led Rgb</span>
+            <span class="specs">Bluetooth, Wireless 2.4</span>
+            <span class="price">R$ 23,90 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1JQjiKZ" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="mouses" data-search="mouse sem fio recarregável wireless optico led rgb">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_826958-MLA114973266685_072026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Mouse Sem Fio Recarregável Wireless Optico Led Rgb">Mouse Sem Fio Recarregável Wireless Optico Led Rgb</span>
+            <span class="specs">Bluetooth, Wireless 2.4</span>
+            <span class="price">R$ 23,06 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1GYCEqZ" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="mouses" data-search="mouse sem fio recarregável wireless optico led rgb">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_644882-MLA116815483291_082026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Mouse Sem Fio Recarregável Wireless Optico Led Rgb">Mouse Sem Fio Recarregável Wireless Optico Led Rgb</span>
+            <span class="specs">Bluetooth, Wireless 2.4</span>
+            <span class="price">R$ 23,90 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1EJgGG9" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="mouses" data-search="redragon ebony m998 std mouse gamer + tri-mode">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_729109-MLA113954750203_062026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Redragon Ebony M998 STD Mouse Gamer + Tri-Mode">Redragon Ebony M998 STD Mouse Gamer + Tri-Mode</span>
+            
+            <span class="price">R$ 235,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/32tymRq" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="teclados" data-search="redragon lakshmi rainbow preto português brasil">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_776910-MLA93228363871_092025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Redragon Lakshmi Rainbow Preto Português Brasil">Redragon Lakshmi Rainbow Preto Português Brasil</span>
+            
+            <span class="price">R$ 201,90 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1nFF6b4" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="ssds" data-search="ssd 1tb m.2 nvme pcie 4.0 western digital sn3000">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_803738-MLA99373438230_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="SSD 1TB M.2 NVMe PCIe 4.0 Western Digital Sn3000">SSD 1TB M.2 NVMe PCIe 4.0 Western Digital Sn3000</span>
+            
+            <span class="price">R$ 999,89 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/2FCsyZM" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="ssds" data-search="ssd kingston nv2 snvs/1 tb para pc e laptop">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_919844-MLU73803114281_012024-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="SSD Kingston Nv2 SNVS/1 TB para PC e laptop">SSD Kingston Nv2 SNVS/1 TB para PC e laptop</span>
+            <span class="specs">NVMe, PCIe 4.0, PCIe Gen 3.0</span>
+            <span class="price">R$ 1.059,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ MENOR PREÇO REGISTRADO</span>
+            <a class="cta" href="https://meli.la/2EcWkR4" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="ssds" data-search="ssd kingston nv3 500gb m2 2280 nvme pcie 4.0 gen 4x4">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_790864-MLA106134764970_022026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="SSD Kingston NV3 500GB M2 2280 NVME PCIe 4.0 Gen 4x4">SSD Kingston NV3 500GB M2 2280 NVME PCIe 4.0 Gen 4x4</span>
+            <span class="specs">Pcie 4, NVMe PCIe 4.0 x4</span>
+            <span class="price">R$ 617,69 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1KJEidX" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="ssds" data-search="ssd kingston sedc600m/960g">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_819939-MLA99374414616_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="SSD Kingston Sedc600m/960g">SSD Kingston Sedc600m/960g</span>
+            <span class="specs">SATA Rev. 3.0 (6Gb/s)</span>
+            <span class="price">R$ 4.900,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/19mPbCb" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="ssds" data-search="ssd m.2 1tb sandisk plus nvme 2280">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_729633-MLA99465062840_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Ssd M.2 1tb Sandisk Plus Nvme 2280">Ssd M.2 1tb Sandisk Plus Nvme 2280</span>
+            <span class="specs">NVMe</span>
+            <span class="price">R$ 975,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/2vGoSiS" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="ssds" data-search="ssd netac nv3000">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_962098-MLA115695831628_092026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="SSD Netac Nv3000">SSD Netac Nv3000</span>
+            <span class="specs">M.2_pci-express_3.0x4</span>
+            <span class="price">R$ 399,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/2cbiefw" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="ssds" data-search="ssd nvme 1tb crucial e100 m.2 pcie 4.0">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_888534-MLA99949615095_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Ssd Nvme 1tb Crucial E100 M.2 Pcie 4.0">Ssd Nvme 1tb Crucial E100 M.2 Pcie 4.0</span>
+            <span class="specs">PCIe 4.0</span>
+            <span class="price">R$ 1.599,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/27hfiJn" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="ssds" data-search="ssd nvme asgard an4">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_638062-MLA99489879142_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="SSD Nvme Asgard AN4">SSD Nvme Asgard AN4</span>
+            
+            <span class="price">R$ 1.449,90 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/2bCjc97" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="ssds" data-search="ssd nvme m.2 256gb pm9b1">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_754321-MLU76732693393_052024-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Ssd nvme M.2 256gb PM9B1">Ssd nvme M.2 256gb PM9B1</span>
+            <span class="specs">NVMe</span>
+            <span class="price">R$ 346,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1SDwc24" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="ssds" data-search="ssd nvme movespeed">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_701075-MLA99853800513_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Ssd Nvme Movespeed">Ssd Nvme Movespeed</span>
+            <span class="specs">NVMe</span>
+            <span class="price">R$ 1.280,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ MENOR PREÇO REGISTRADO</span>
+            <a class="cta" href="https://meli.la/1cJNKFQ" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="ssds" data-search="ssd nvme pc notebook ps5 fanxiang s790 1tb gen4">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_897320-MLA99935389005_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Ssd Nvme PC Notebook PS5 Fanxiang S790 1tb Gen4">Ssd Nvme PC Notebook PS5 Fanxiang S790 1tb Gen4</span>
+            <span class="specs">PCIe Gen4x4</span>
+            <span class="price">R$ 1.299,55 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1mvonkU" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="teclados" data-search="teclado gamer gurumania semi mecanico rgb led">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_664235-MLA112022117474_062026-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Teclado Gamer Gurumania Semi Mecanico Rgb Led">Teclado Gamer Gurumania Semi Mecanico Rgb Led</span>
+            
+            <span class="price">R$ 46,19 <small>visto em 22/09 · <a href="#p003">no post #003</a></small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/14v7CKS" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="teclados" data-search="teclado gamer membrana newdragon nd-2086">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_861732-MLA99590069046_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Teclado Gamer Membrana Newdragon ND-2086">Teclado Gamer Membrana Newdragon ND-2086</span>
+            <span class="specs">USB 2.0</span>
+            <span class="price">R$ 43,90 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/2JkJdsb" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="teclados" data-search="teclado magnético akko monsgeek 8000hz fun60 pro">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_844139-MLA96418198732_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Teclado Magnético Akko Monsgeek 8000hz Fun60 Pro">Teclado Magnético Akko Monsgeek 8000hz Fun60 Pro</span>
+            <span class="specs">USB-C</span>
+            <span class="price">R$ 225,00 <small>visto em 22/09 · <a href="#p003">no post #003</a></small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1z8Vw9i" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="teclados" data-search="teclado mecânico attack shark x68 he interruptor">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_998883-MLA95168370694_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Teclado mecânico Attack Shark X68 He Interruptor">Teclado mecânico Attack Shark X68 He Interruptor</span>
+            <span class="specs">USB-C</span>
+            <span class="price">R$ 299,90 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/19oKwmp" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="teclados" data-search="teclado mecânico aula f75">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_814921-MLA99983118167_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Teclado Mecânico Aula F75">Teclado Mecânico Aula F75</span>
+            <span class="specs">USB-C, Bluetooth</span>
+            <span class="price">R$ 391,05 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/2REhHh1" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="teclados" data-search="teclado mecânico gamer">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_622007-MLA99539825320_122025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Teclado Mecânico Gamer">Teclado Mecânico Gamer</span>
+            
+            <span class="price">R$ 100,00 <small>visto em 22/09 · <a href="#p003">no post #003</a></small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/2u4jFqU" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="teclados" data-search="teclado mecânico gamer 60% switch huano brow red pc">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_600122-MLA99994206687_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Teclado Mecânico Gamer 60% Switch Huano Brow Red Pc">Teclado Mecânico Gamer 60% Switch Huano Brow Red Pc</span>
+            <span class="specs">Computador, Notebook, PS4, PS5, xbox 360, Xbox One</span>
+            <span class="price">R$ 159,90 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1aU1uxR" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="teclados" data-search="teclado mecânico gamer 60% switch huano brow red pc">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_738186-MLA99518020132_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Teclado Mecânico Gamer 60% Switch Huano Brow Red Pc">Teclado Mecânico Gamer 60% Switch Huano Brow Red Pc</span>
+            <span class="specs">Computador, Notebook, PS4, PS5, xbox 360, Xbox One</span>
+            <span class="price">R$ 159,90 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/1krTWxv" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="teclados" data-search="teclado mecânico gamer redragon kumara k552-rgb">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_858328-MLA92468300434_092025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Teclado mecânico Gamer Redragon Kumara K552-RGB">Teclado mecânico Gamer Redragon Kumara K552-RGB</span>
+            
+            <span class="price">R$ 1.500,00 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/2Wdb7r8" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="teclados" data-search="teclado mecânico redragon lakshmi rainbow brown k606">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_987217-MLA99928502679_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Teclado Mecânico Redragon Lakshmi Rainbow Brown K606">Teclado Mecânico Redragon Lakshmi Rainbow Brown K606</span>
+            
+            <span class="price">R$ 134,36 <small>visto em 22/09</small></span>
+            <span class="chip insufficient">○ DADO INSUFICIENTE</span>
+            <a class="cta" href="https://meli.la/25PXNaE" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="monitores" data-search="monitor gamer samsung odyssey g5">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_987462-MLA99509630578_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Monitor Gamer Samsung Odyssey G5">Monitor Gamer Samsung Odyssey G5</span>
+            <span class="specs">1 HDMI</span>
+            <span class="price">R$ 1.125,00 <small>visto em 22/09</small></span>
+            <span class="chip wait">● AGUARDAR</span>
+            <a class="cta" href="https://meli.la/2eRZam7" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="monitores" data-search="monitor lg com tela de 24&quot; de 100hz e resolução full">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_921982-MLA99962503055_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Monitor LG com tela de 24&quot; de 100Hz e resolução Full">Monitor LG com tela de 24&quot; de 100Hz e resolução Full</span>
+            
+            <span class="price">R$ 641,00 <small>visto em 22/09</small></span>
+            <span class="chip wait">● AGUARDAR</span>
+            <a class="cta" href="https://meli.la/327AaDy" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="mouses" data-search="mouse gamer g203 lightsync - lilás logitech">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_801862-MLA95840092401_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Mouse Gamer G203 LIGHTSYNC - Lilás Logitech">Mouse Gamer G203 LIGHTSYNC - Lilás Logitech</span>
+            <span class="specs">É com fio</span>
+            <span class="price">R$ 119,92 <small>visto em 22/09</small></span>
+            <span class="chip wait">● AGUARDAR</span>
+            <a class="cta" href="https://meli.la/1eFQfDn" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="headsets" data-search="headset gamer havit h2002d">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_693968-MLA99505956574_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Headset Gamer Havit H2002d">Headset Gamer Havit H2002d</span>
+            
+            <span class="price">R$ 219,19 <small>visto em 22/09</small></span>
+            <span class="chip inflated">! PREÇO INFLADO</span>
+            <a class="cta" href="https://meli.la/1BwzK8c" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="headsets" data-search="headset gamer havit gamenote h2002d">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_857089-MLA99931574605_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Headset Gamer Havit Gamenote H2002d">Headset Gamer Havit Gamenote H2002d</span>
+            
+            <span class="price">R$ 221,66 <small>visto em 22/09</small></span>
+            <span class="chip inflated">! PREÇO INFLADO</span>
+            <a class="cta" href="https://meli.la/2QkGEWp" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="headsets" data-search="fone de ouvido headphone philco extreme bluetooth">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_867027-MLA99506481804_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Fone de Ouvido Headphone Philco Extreme Bluetooth">Fone de Ouvido Headphone Philco Extreme Bluetooth</span>
+            
+            <span class="price">R$ 249,00 <small>visto em 22/09</small></span>
+            <span class="chip inflated">! PREÇO INFLADO</span>
+            <a class="cta" href="https://meli.la/2tUsMrQ" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="headsets" data-search="headset gamer hyperx cloud stinger 2 core pc preto">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_749024-MLA95839576633_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Headset Gamer HyperX Cloud Stinger 2 Core PC Preto">Headset Gamer HyperX Cloud Stinger 2 Core PC Preto</span>
+            
+            <span class="price">R$ 290,00 <small>visto em 22/09</small></span>
+            <span class="chip inflated">! PREÇO INFLADO</span>
+            <a class="cta" href="https://meli.la/1XxYxNw" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="headsets" data-search="headset hyperx cloud stinger">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_804019-MLA95654964729_102025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Headset Hyperx Cloud Stinger">Headset Hyperx Cloud Stinger</span>
+            
+            <span class="price">R$ 320,00 <small>visto em 22/09</small></span>
+            <span class="chip inflated">! PREÇO INFLADO</span>
+            <a class="cta" href="https://meli.la/25qPbSh" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+        <li class="row radar-row more" data-cat="headsets" data-search="headset gamer branco e roxo havit h2002d">
+          <span class="thumb"><img src="https://http2.mlstatic.com/D_NQ_NP_902430-MLA99975527909_112025-F.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"></span>
+          <div class="row-body">
+            <span class="name" title="Headset Gamer Branco E Roxo Havit H2002d">Headset Gamer Branco E Roxo Havit H2002d</span>
+            
+            <span class="price">R$ 389,90 <small>visto em 22/09</small></span>
+            <span class="chip inflated">! PREÇO INFLADO</span>
+            <a class="cta" href="https://meli.la/1ZLNoXz" target="_blank" rel="sponsored nofollow noopener">Abrir no Mercado Livre<span aria-hidden="true"> →</span></a>
+          </div>
+        </li>
+    </ul>
+    <button type="button" class="toggle" id="more">Ver os 67 produtos</button>
+  </section>
   <details class="how">
     <summary>Como a gente lê o preço</summary>
-    <p><b class="lime">▲ Sinal de entrada</b>: o preço do Mercado Livre está abaixo da mediana do varejo nos últimos 40 dias (menor preço diário entre lojas, via Zoom).</p>
-    <p><b>● Aguardar</b>: está acima dessa mediana. O varejo já cobrou menos; vale esperar.</p>
-    <p><b>Etiqueta do ML</b>: o "de/por" do anúncio. Mostramos ao lado quanto ele está abaixo (ou acima) do varejo de verdade.</p>
+    <p>Todo dia registramos o <b>menor preço do varejo</b> para cada produto (o mais barato entre as lojas, via Zoom). Dessa série de 40 dias saem duas estatísticas: a <b>mediana 40d</b> (o preço típico) e o <b>menor preço 40d</b>. O <b>preço atual no Mercado Livre</b> é comparado com elas.</p>
+    <p><b class="st entry">↓ Entrada</b>: preço atual abaixo da mediana 40d.</p>
+    <p><b class="st wait">● Aguardar</b>: acima da mediana 40d, até 10%.</p>
+    <p><b class="st inflated">! Preço inflado</b>: mais de 10% acima da mediana 40d.</p>
+    <p><b class="st insufficient">○ Dado insuficiente</b>: ainda não há 40 dias de varejo para comparar. Quando o produto só tem a nossa coleta no Mercado Livre, mostramos o "menor preço registrado" e o número de dias da janela.</p>
+    <p><b>Etiqueta do anúncio</b>: o "de/por" do Mercado Livre. Mostramos ao lado a distância real para a mediana 40d.</p>
   </details>
   <footer>
     <p>Links de afiliado: o PriceAlpha pode receber comissão do Mercado Livre pelas compras, sem custo extra para você.</p>
